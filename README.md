@@ -60,6 +60,7 @@
 
 Discovery (used to be called Bonjour Browser) is a mac app which displays all services declared using Bonjour
 ![stat1](https://github.com/TK5-Tim/FreedomDrop/blob/master/Screenshot%202020-03-17%20at%2000.54.55.png)
+![stat2](https://github.com/TK5-Tim/FreedomDrop/blob/master/Screenshot%202020-03-17%20at%2000.54.47.png)
 ## Links:
 
 *   [GitHub Repo](#) for stuff
