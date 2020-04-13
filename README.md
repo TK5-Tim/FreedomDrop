@@ -77,3 +77,5 @@ Discovery (used to be called Bonjour Browser) is a mac app which displays all se
 *   https://en.wikipedia.org/wiki/Wi-Fi_Direct
 *   https://en.wikipedia.org/wiki/Bluetooth
 *   https://en.wikipedia.org/wiki/Bluetooth_Low_Energy
+*   Dokumentation von Apple Ports: https://support.apple.com/de-ch/HT210060 
+*   Entwicklung für Kontakt-Tracing, welche hilfreich sein könnte: https://github.com/TCNCoalition/TCN 
