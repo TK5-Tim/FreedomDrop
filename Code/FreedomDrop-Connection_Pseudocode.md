@@ -55,6 +55,15 @@ To avoid the usual problem in Network Programming of figuring out on which port 
   * The Service ID is a 128-bit Universally Unique Identifiers (UUID)
 * On startup, server applications get dynamically assigned port numbers
 * When a remote client application tries to connect it provides a description of the service it is looking for and the SDP server responds with a listing of all the services that match
+* Common SDP Attributes are:
+  * Service Class ID List
+  * Service ID
+  * Service Name
+  * Service Description
+  * Protocol Descriptor List
+  * Profile Descriptor List
+  * Service Record Handle
+
 
 ## The general steps
 The user who initiates the exchange from here on will be called 'master' and his peer will be referred to as 'slave'. This is not because of an SM-innuendo but to emulate Bluetooth-talk
@@ -79,6 +88,18 @@ def establishConnection(deviceNum):
 
 def transferData():
   ...
+
+if len(sys.argv) < 2:
+  print("Usage: {sys.argv[1] <isMaster (1 or 0)>}")
+else {
+  isMaster = sys.argv[2]
+}
+
+if isMaster:
+  #TODO: Create Client/Active socket
+else {
+  #TODO: Create Server/Passive socket
+}
 
 nearbyDevices = bluetooth.discover_devices(lookup_names=True)  #Assumption: disover_devices returns a dict
 print(f"The scan has discovered {len(nearbyDevices)} devices")
