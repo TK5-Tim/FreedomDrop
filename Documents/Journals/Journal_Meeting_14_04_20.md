@@ -15,13 +15,13 @@ Leonhard Badenberg ([@LeonhardBadenberg](https://github.com/LeonhardBadenberg))
 	* Grundsätzlich gleich, außer der Datenübertragung
 * Stand der Dinge klären
 * über Aussehen der Logs beraten
-	* Alternative Besprechung mit Gruppe 3
+	* Alternative Besprechung mit Gruppe 3,4,12
 * über mögliche Zusammenarbeit debattiert
 
 ### Besprechung Präsentation
 * Aufbau
 	* Ziele
-		* wie im letzten Meeting (24.03) beredet
+		* wie im letzten Meeting (24.03) besprochen
 	* aktueller Stand
 		* Diagramme
 		* Info Bluethooth
