@@ -2,6 +2,7 @@
 
 ## Content
 
+* [Contributors](#contributors)
 * [Code](#code)
 * [Documents](#documents)
     * [Graphs](#graphs)
@@ -10,6 +11,11 @@
     * [Presentations](#presentations)
 * [Ressources](#ressources)
 
+## Contributors
+
+Mateusz Palasz ([@MateuszPalasz](https://github.com/MateuszPalasz))
+Oliver Weinmeier ([@oliverweinm](https://github.com/oliverweinm))
+Tim Keller ([@TK5-Tim](https://github.com/TK5-Tim))
 
 ## Code 
 Beinhaltet alle Code Ressourcen. Including the Pseudo Code as first implementation of our concepts: 
@@ -21,7 +27,7 @@ Beinhaltet alle Code Ressourcen. Including the Pseudo Code as first implementati
 ![Big Picture](Documents/Graphs/Gesamtbild.png)
 This picture shows the main parts of the project fit into the big Picture of the whole project.  
 
-![Workflow Log Exchange](Documents/Graphs/Workflow_Log_Exchange.jpg)
+![Workflow Log Exchange](Documents/Graphs/Workflow_Log_Exchange.png)
 Flow Diagram to show how two Peers exchange logs to be synchronized.
 ### Informations 
 All the Research made for the project is documentated in there: 
