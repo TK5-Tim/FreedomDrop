@@ -10,10 +10,10 @@ Tim Keller ([@TK5-Tim](https://github.com/TK5-Tim))
 
 ### Ablauf
 *	Gesamtbild besprochen (Big Picture)
-	*	Ganze Dateine sollen verschickt werden
+	*	Ganze Dateien sollen verschickt werden
 	*	Log merge richtig interpretiert
 		*	Log sync nicht relevant für unser Projekt
-			*	log sync gleicht die Interferent auf einzelne Dateinen aus
+			*	log sync gleicht die Interferenz auf einzelne Dateinen aus
 	* Connection setup erstellen, um zu wissen, was die andere Seite Macht
 *	Fortschritt Datenaustausch
 	*	nur Pseudocode
@@ -31,7 +31,7 @@ Tim Keller ([@TK5-Tim](https://github.com/TK5-Tim))
 	*	Service definieren
 	*	Devices finden
 	*	Parameter und Format(ID) für Wifi finden
-	*	Per Hoc Netz direkt untereinander kommunizieren
+	*	Per Ad-Hoc Netz direkt untereinander kommunizieren
 		*	Wie würde dabei der Datenaustausch aussehen?
 			*	Kein UDP etc. möglich
 			*	Eigenes Protokoll schreiben
