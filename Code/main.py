@@ -36,6 +36,11 @@ while not connectionEstablished:
   try:
     connectionEstablished = connection.establishConnection(isMaster)
     print("<Connection has been established>")
+    if isMaster:
+        connection.createAdHoc()
+        print("<Created Ad Hoc network>")
+    else:
+        print("<Ad Hoc network will be created by peer>")
   except Exception as exception:
     print(exception)
     exit()

@@ -14,6 +14,7 @@ This module contains the function definitions used for
 from bluetooth import *
 from impexp import *
 import struct
+import os
 import sys
 
 nearbyDevices = ""
@@ -74,6 +75,11 @@ def chooseSlave(devicesList):
     #print(slaveAddress)
     return(slaveAddress)
 
+def createAdHoc():
+    cmd = "swift adhoc.swift"
+    SSID = "kool"
+    password = "cool" #Password is a WEP password
+    os.system("swift adhoc.swift" + " " + SSID + " " + password)
 
 def disconnect(*sockets):
     """This function is called by both master and server to close the sockets and thus disconnect"""
