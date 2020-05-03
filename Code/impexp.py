@@ -1,3 +1,27 @@
+"""Import/Export module
+
+This module contains the function definitions use for:
+    - importing the peers Inventory (list of all the logs the peer has) and their
+      Payload(all the peers logs relevant for us) as well as
+    - exporting our own Inventory and Payload information during the exchange.
+Functions contained in this module are:
+    - file_len(fname)
+    - createEntry()
+    - processEntry()
+    - createInventory()
+    - sendInventory()
+    - receivePeerInventory()
+    - createPayload()
+    - sendPayload()             TODO
+    - receivePeerPayload()
+    - sendOk()                  TODO
+    - terminate()               TODO
+### NOTICE: Everything is still a work-in-progress functions in this module might later be
+moved to a more appropriate module
+### TODO: It would probably be good to create a Python method which turns .pcap files
+into Python objects which can then be parsed and handled easier (i.e. JSON objects)
+"""
+
 import subprocess
 
 

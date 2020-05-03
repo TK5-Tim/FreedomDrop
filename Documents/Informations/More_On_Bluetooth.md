@@ -58,3 +58,10 @@ Bluetooth Profiles are identical in nature to the Internet RFCs, but also comple
 * Human Interface Device: Allows peripheral devices to connect to the device.
 * Serial Port Profile: Allows RFCOMM connections between two Bluetooth devices to be treated as serial cable connections.
 * many more...
+
+
+## Device Discovery further explained
+* Bluetooth splits the 2.4GHz band into 79 channels with all devices in a piconet using exactly one of these channels at a time
+* 32 of these channels are used for detecting nearby devices and establishing connections
+* An Inquiring device sends inquiry messages on these channels and discoverable devices periodically listen on them
+* The Inquiry process for a nearby device is very technical and at this point we refer back to the book

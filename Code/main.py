@@ -1,3 +1,8 @@
+"""Main Program Loop
+
+This module contains the program logic for FreedomDrop
+"""
+
 import connection
 import impexp
 import subprocess
@@ -15,6 +20,7 @@ peerPayload = list()
 peerInventory = ""
 peerInventoryList = ""
 
+#BEFORE we are connected
 localBTAddress = read_local_bdaddr()
 print(f"Our local Bluetooth address is {localBTAddress}")
 
@@ -26,7 +32,6 @@ else:
   isMaster = int(sys.argv[1])
   print("<You are now {title}>".format(title = "initiating the transfer" if isMaster == 1 else "waiting for an initiation"))
 
-
 while not connectionEstablished:
   try:
     connectionEstablished = connection.establishConnection(isMaster)
@@ -35,6 +40,7 @@ while not connectionEstablished:
     print(exception)
     exit()
 
+#WHILE we are connected
 entriesCount = impexp.file_len("logtextfile.txt") #Deprecated
 
 #We open a line for reading+writing, pointer is at beginning of file
@@ -48,7 +54,6 @@ for _ in range(1,entriesCount+1,1): #Deprecated
     except ValueError:                         #Deprecated
         print(ValueError)                      #Deprecated
 f.close()                                      #Deprecated
-
 
 fromPeerInventoryList = impexp.receivePeerInventory()
 toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);

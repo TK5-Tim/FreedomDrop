@@ -1,9 +1,16 @@
-# Oliver Weinmeier, Date: 15.4.2020
-# 1. This code searches for all discoverable devices closeby and prints them.
-# 2.
-# Bluetooth Discovery can take quite a long time (up to 15 seconds)
-# It is important to check if the nearby devices are actually discoverable
-# (they are not by default, only during the pairing process and the like)
+"""Connection Module
+
+This module contains the function definitions used for
+    - the device discovery process
+    - establishing a connection
+###NOTICE: Bluetooth Discovery can take quite a long time (up to 15 seconds)
+           It is important to check if the nearby devices are actually discoverable
+           (they are not by default, only during the pairing process and the like)
+### NOTICE: Everything is still a work-in-progress functions in this module might later be
+            moved to a more appropriate module
+### TODO: Add SDP(Service Discovery Protocol) functionality
+"""
+
 from bluetooth import *
 from impexp import *
 import struct
@@ -15,6 +22,8 @@ serverSocket = ""
 clientSocket = ""
 
 def establishConnection(isMaster):
+    """This function initiates a connection if called by masteror  powers up a server otherwise"""
+
     print("<Scanning...Please hold...>")
     if isMaster:
         nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
@@ -47,6 +56,8 @@ def establishConnection(isMaster):
 
 
 def chooseSlave(devicesList):
+    """This function is called by a master after device discovery to choose whom to connect to"""
+
     counter = 1
     nameList = list()
     for addr, name in devicesList:
@@ -65,5 +76,7 @@ def chooseSlave(devicesList):
 
 
 def disconnect(*sockets):
+    """This function is called by both master and server to close the sockets and thus disconnect"""
+
     for socket in sockets:
         socket.close()
