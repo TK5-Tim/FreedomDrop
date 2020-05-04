@@ -80,8 +80,10 @@ else:
     toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);
     sendPayload(slaveSocket)
 
-disconnect()
-
+if isMaster is True:
+    disconnect([masterSocket, slaveSocket])
+else:
+    disconnect(slaveSocket)
 print("<Program terminated>")
 
 
