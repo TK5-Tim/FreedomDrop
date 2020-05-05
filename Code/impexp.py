@@ -96,7 +96,7 @@ def createPayload(fromPeerInventoryDict, inventory):
 def sendPayload():
     pass
 
-def receivePeerPayload(toPeerPayload):
+def receivePeerPayload():
   dataReceivedFromPeer = "" # receive
   if dataReceivedFromPeer:
     for entry in dataReceivedFromPeer:
