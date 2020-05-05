@@ -22,7 +22,11 @@ moved to a more appropriate module
 into Python objects which can then be parsed and handled easier (i.e. JSON objects)
 """
 
+import lib.pcap as pcap
+import cbor2
+import hashlib
 import subprocess
+import difflib
 
 
 def file_len(fname):
@@ -32,6 +36,14 @@ def file_len(fname):
     if p.returncode != 0:
         raise IOError(err)
     return int(result.strip().split()[0])
+
+def importPCAP(fname): 
+    log = pcap.PCAP(fname)
+    return log
+
+def importInventory(fname):
+    inventory = open(fname)
+    return inventory
 
 def createEntry(rawEntry):
     #return(entryTuple)
@@ -44,9 +56,32 @@ def processEntry(formattedEntry):
     except KeyError:
       inventory[str(formattedEntry.feed_id)].append(formattedEntry)
 
-def createInventory(inventoryDict):
-    #return inventory
-    pass
+def createInventory(fname, inventoryDict):
+    log = importPCAP(fname)
+    log.open('r')
+    inventory = open(inventoryDict,'w+')
+    for w in log: 
+        e = cbor2.loads(w)
+        href = hashlib.sha256(e[0]).digest()
+        e[0] = cbor2.loads(e[0])
+        # rewrite the packet's byte arrays for pretty printing:
+        e[0] = pcap.base64ify(e[0])
+        fid = e[0][0]
+        seq = e[0][1]
+        inventory.write("%d \n" % seq)
+    log.close()
+    #inventory.close()
+
+def compareInventory(inventoryint, inventoryext):
+    with open(inventoryint) as internal:
+        seq_internal = [line.rstrip('\n') for line in internal]
+    with open(inventoryext) as external:
+        seq_external = [line.rstrip('\n') for line in external]
+    if seq_internal != seq_external: 
+        seq_diff = set(seq_external) - set(seq_internal)
+        print(seq_diff)
+    else:
+        print("both logs are up to date!")
 
 def sendInventory(inventoryDict):
     pass
