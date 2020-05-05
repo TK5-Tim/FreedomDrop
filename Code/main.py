@@ -60,9 +60,27 @@ for _ in range(1,entriesCount+1,1): #Deprecated
         print(ValueError)                      #Deprecated
 f.close()                                      #Deprecated
 
-fromPeerInventoryList = impexp.receivePeerInventory()
-toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);
-dataReceived = impexp.receivePeerPayload(toPeerPayload)
+if isMaster is True:
+    #Master creates inventory and sends it
+    #Master then waits for the slave's inventory
+    #Master compiles and sends payload
 
+    toPeerInventroyList = impexp.createInventory(inventory)
+    impexp.sendInventory(toPeerInventoryList)
+    fromPeerInventoryList = impexp.receivePeerInventory()
+    toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);
+    impexp.sendPayload(toPeerPayload)
+    dataReceived = impexp.receivePeerPayload()
+else:
+    #Slave receives master inventory and then builds its own
+    #Slave then sends its own inventory
+    #Slave then waits for Master's payload
+
+    fromPeerInventoryList = impexp.receivePeerInventory()
+    toPeerInventoryList = impexp.createInventory(inventory)
+    impexp.sendInventory(toPeerInventoryList)
+    dataReceived = impexp.receivePeerPayload()
+    toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);
+    impexp.sendPayload(toPeerPayload)
 
 print("<Program terminated>")

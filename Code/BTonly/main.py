@@ -69,7 +69,7 @@ if isMaster is True:
     fromPeerInventoryList = impexp.receivePeerInventory(masterSocket)
     impexp.sendInventory(toPeerInventoryList,masterSocket)
     toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);
-    sendPayload(masterSocket)
+    impexp.sendPayload(masterSocket)
     dataReceived = impexp.receivePeerPayload(masterSocket)
 
 else:
@@ -78,7 +78,7 @@ else:
     impexp.sendInventory(toPeerInventoryList,slaveSocket)
     dataReceived = impexp.receivePeerPayload(slaveSocket)
     toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);
-    sendPayload(slaveSocket)
+    impexp.sendPayload(slaveSocket)
 
 if isMaster is True:
     disconnect([masterSocket, slaveSocket])
