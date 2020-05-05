@@ -65,16 +65,16 @@ while not connectionEstablished:
 #WHILE we are connected
 #Here used to be 'Depracted Code Snippet #1'
 if isMaster is True:
-    toPeerInventoryList = impexp.createInventory()
-    fromPeerInventoryList = impexp.receivePeerInventory(masterSocket)
+    toPeerInventoryList = impexp.createInventory(inventory)
     impexp.sendInventory(toPeerInventoryList,masterSocket)
+    fromPeerInventoryList = impexp.receivePeerInventory(masterSocket)
     toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);
-    impexp.sendPayload(masterSocket)
+    impexp.sendPayload(toPeerPayload, masterSocket)
     dataReceived = impexp.receivePeerPayload(masterSocket)
 
 else:
     fromPeerInventoryList = impexp.receivePeerInventory(slaveSocket)
-    toPeerInventoryList = impexp.createInventory()
+    toPeerInventoryList = impexp.createInventory(inventory)
     impexp.sendInventory(toPeerInventoryList,slaveSocket)
     dataReceived = impexp.receivePeerPayload(slaveSocket)
     toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);
