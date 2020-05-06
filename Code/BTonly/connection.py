@@ -47,7 +47,7 @@ def establishConnection(isMaster):
         #socket.send(...)
         #disconnect(socket) This should be in another function
         print(f"{serverName} accepted our connection")
-        return(True, masterSocket)
+        return(True, None, masterSocket)
     else:
         backlog = 1
         port = 0
