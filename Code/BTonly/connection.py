@@ -41,6 +41,7 @@ def establishConnection(isMaster):
             #print(f"<Now connecting to {serverName}:{serverAddress}>")
             #socket.connect( (serverAddress,port) )
         except Exception:
+            print("<Error creating a master socket>")
             print(Exception)
             return(False, masterSocket)
         #socket.send(...)
@@ -56,6 +57,7 @@ def establishConnection(isMaster):
             slaveSocket.listen(backlog)
             masterSocket, masterInfo = slaveSocket.accept()
         except Exception:
+            print("<Error creating a slave socket>")
             print(Exception)
             return(False, slaveSocket, masterSocket)
         print(f"Accepted connection from {clientInfo}")
