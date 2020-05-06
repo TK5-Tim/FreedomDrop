@@ -40,7 +40,7 @@ def establishConnection(isMaster):
         try:
             masterSocket = BluetoothSocket(RFCOMM)
             #print(f"<Now connecting to {serverName}:{serverAddress}>")
-            socket.connect( (serverAddress,port) )
+            masterSocket.connect( (serverAddress,port) )
         except Exception:
             print("<Error creating a master socket>")
             print(Exception)
