@@ -50,7 +50,7 @@ while not connectionEstablished:
             #print("<Created Ad Hoc network>")
         else:
             print("<Connection could not be hosted. Trying again now...>")
-            pass
+
     else:
         connectionEstablished, slaveSocket, masterSocket = connection.establishConnection(isMaster)
         if connectionEstablished is True:

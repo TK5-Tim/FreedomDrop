@@ -20,7 +20,7 @@ import sys
 nearbyDevices = ""
 socket = ""
 masterSocket = ""
-serverSocket = ""
+slaveSocket = ""
 clientSocket = ""
 
 def establishConnection(isMaster):
@@ -28,6 +28,7 @@ def establishConnection(isMaster):
 
     print("<Scanning...Please hold...>")
     global masterSocket
+    global slaveSocket
     if isMaster:
         nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
         print(f"<The scan has discovered {len(nearbyDevices)} (discoverable) devices nearby>")
