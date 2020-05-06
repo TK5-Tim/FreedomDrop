@@ -46,6 +46,7 @@ def establishConnection(isMaster):
         return(True, masterSocket)
     else:
         backlog = 1
+        port = 1
         try:
             slaveSocket = BluetoothSocket(RFCOMM)
             slaveSocket.bind( ("", port) )

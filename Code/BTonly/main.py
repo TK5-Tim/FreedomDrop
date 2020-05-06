@@ -10,7 +10,6 @@ from bluetooth import *
 
 
 #This is the actual starting point for the flow
-port = 1
 connectionEstablished = False
 dataReceived = False
 okReceived = False
