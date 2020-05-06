@@ -84,7 +84,7 @@ def chooseSlave(devicesList):
     slaveNum = int(input("Choose the slave by typing their number [x] >>"))
     counter = 1
     slaveAddress = ""
-    for addr, name in nearbyDevices:
+    for addr, name in devicesList:
         if counter == slaveNum:
             slaveAddress = addr
             break
