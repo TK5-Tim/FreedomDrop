@@ -29,7 +29,8 @@ def establishConnection(isMaster):
     print("<Scanning...Please hold...>")
     global masterSocket
     global slaveSocket
-    if isMaster:
+    port = 0
+    if isMaster == 1:
         nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
         print(f"<The scan has discovered {len(nearbyDevices)} (discoverable) devices nearby>")
         #for addr, name in nearbyDevices:
@@ -39,7 +40,7 @@ def establishConnection(isMaster):
         try:
             masterSocket = BluetoothSocket(RFCOMM)
             #print(f"<Now connecting to {serverName}:{serverAddress}>")
-            #socket.connect( (serverAddress,port) )
+            socket.connect( (serverAddress,port) )
         except Exception:
             print("<Error creating a master socket>")
             print(Exception)
@@ -47,10 +48,9 @@ def establishConnection(isMaster):
         #socket.send(...)
         #disconnect(socket) This should be in another function
         print(f"{serverName} accepted our connection")
-        return(True, None, masterSocket)
+        return(True, masterSocket)
     else:
         backlog = 1
-        port = 0
         try:
             slaveSocket = BluetoothSocket(RFCOMM)
             slaveSocket.bind( ("", port) )

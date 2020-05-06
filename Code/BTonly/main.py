@@ -41,7 +41,7 @@ while not connectionEstablished:
     This needs rewriting, should we decide to advertise a service. This would also change our
     execution flow significantly.
     """
-    if isMaster is True:
+    if isMaster == 1:
         #throwawayVar = ""
         connectionEstablished, slaveSocket = connection.establishConnection(isMaster)
         if connectionEstablished is True:
