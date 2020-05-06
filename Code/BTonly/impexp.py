@@ -13,7 +13,7 @@ Functions contained in this module are:
     - receivePeerInventory()
     - createPayload()
     - sendPayload()             TODO
-    - receivePeerPayload()
+    - receivePeerPayload()      TODO, Current implementation depracated
     - sendOk()                  TODO
     - terminate()               TODO
 ### NOTICE: Everything is still a work-in-progress functions in this module might later be
@@ -55,7 +55,7 @@ def processEntry(formattedEntry):
     except KeyError:
       inventory[str(formattedEntry.feed_id)].append(formattedEntry)
 
-def createInventory(inventoryDict):
+def createInventory(fname, inventoryDict):
     #returns an inventory from the inventory dictionary
     log = importPCAP(fname)
     log.open('r')
@@ -99,8 +99,8 @@ def sendInventory(inventoryDict, socket):
 
 def receivePeerInventory(socket):
     #socket is a BluetoothSocket, not an IP socket!!!
-    peerInventoryByteSize =
-    if peerInventoryByteSize != None:
+    #peerInventoryByteSize =
+    #if peerInventoryByteSize != None:
     peerInventory = socket.receive()
     return(peerInventory)
 
@@ -136,9 +136,12 @@ def handlePayload(fname, payload, inventoryDict):
     createInventory(fname,inventoryDict)
 
 def sendPayload(socket):
+    #TODO
     pass
 
 def receivePeerPayload(socket):
+    #Current code already depracated
+    #TODO
   dataReceivedFromPeer = "" # receive using socket
   if dataReceivedFromPeer:
     for entry in dataReceivedFromPeer:

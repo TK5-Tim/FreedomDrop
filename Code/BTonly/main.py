@@ -14,11 +14,12 @@ port = 1
 connectionEstablished = False
 dataReceived = False
 okReceived = False
-inventory = dict()
+inventory = "test.pcap"
 payload = list()
 peerPayload = list()
 peerInventory = ""
 peerInventoryList = ""
+
 
 #BEFORE we are connected
 localBTAddress = read_local_bdaddr()
@@ -45,8 +46,8 @@ while not connectionEstablished:
         connectionEstablished, slaveSocket = connection.establishConnection(isMaster)
         if connectionEstablished is True:
             print("<Connection has been established, master>")
-            connection.createAdHoc()
-            print("<Created Ad Hoc network>")
+            #connection.createAdHoc()
+            #print("<Created Ad Hoc network>")
         else:
             print("<Connection could not be hosted. Trying again now...>")
             pass
