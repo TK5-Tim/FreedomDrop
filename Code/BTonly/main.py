@@ -42,8 +42,8 @@ while not connectionEstablished:
     execution flow significantly.
     """
     if isMaster is True:
-        throwawayVar = ""
-        connectionEstablished, slaveSocket, throwawayVar = connection.establishConnection(isMaster)
+        #throwawayVar = ""
+        connectionEstablished, slaveSocket = connection.establishConnection(isMaster)
         if connectionEstablished is True:
             print("<Connection has been established, master>")
             #connection.createAdHoc()
@@ -55,10 +55,9 @@ while not connectionEstablished:
         connectionEstablished, slaveSocket, masterSocket = connection.establishConnection(isMaster)
         if connectionEstablished is True:
             print("<Connection has been established, slave>")
-            print("<Ad Hoc network will be created by peer>")
+            #print("<Ad Hoc network will be created by peer>")
         else:
             print("<Connection could not be established. Trying again now...>")
-            pass
     #except Exception as exception:
     #print(exception)
     #exit()
