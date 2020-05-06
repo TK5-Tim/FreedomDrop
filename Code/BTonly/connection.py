@@ -58,27 +58,27 @@ def establishConnection(isMaster):
         backlog = 1
         try:
             slaveSocket = BluetoothSocket(RFCOMM)
-        except Exception:
+        except Exception as e:
             print("<Failed creating a Bluetooth socket>")
-            print(Exception)
+            print(e)
             return(False, slaveSocket, masterSocket)
         try:
             slaveSocket.bind( ("", port) )
-        except Exception:
+        except Exception as e:
             print(f"<Failed binding the socket to port {port}>")
-            print(Exception)
+            print(e)
             return(False, slaveSocket, masterSocket)
         try:
             slaveSocket.listen(backlog)
-        except Exception:
+        except Exception as e:
             print("<Failed listening on the slave socket>")
-            print(Exception)
+            print(as e)
             return(False, slaveSocket, masterSocket)
         try:
             masterSocket, masterInfo = slaveSocket.accept()
-        except Exception:
+        except Exception as e:
             print("<Error accepting a slave socket>")
-            print(Exception)
+            print(e)
             return(False, slaveSocket, masterSocket)
 
         print(f"Accepted connection from {clientInfo}")
