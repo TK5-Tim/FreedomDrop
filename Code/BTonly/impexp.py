@@ -27,7 +27,7 @@ import cbor2
 import hashlib
 import subprocess
 import difflib
-import pathlib import Path
+from pathlib import Path
 
 def file_len(fname):
     """
