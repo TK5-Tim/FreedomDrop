@@ -63,8 +63,8 @@ def establishConnection(isMaster):
             print(e)
             return(False, slaveSocket, masterSocket)
         try:
-            slaveSocket.bind( ("", port) )
-        except BluetoothException as e:
+            slaveSocket.bind( ("", PORT_ANY) )
+        except Exception as e:
             print(f"<Failed binding the socket to port {port}>")
             print(e)
             return(False, slaveSocket, masterSocket)
