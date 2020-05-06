@@ -29,7 +29,7 @@ def establishConnection(isMaster):
     print("<Scanning...Please hold...>")
     global masterSocket
     global slaveSocket
-    port = 0
+    port = 1
     if isMaster == 1:
         nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
         print(f"<The scan has discovered {len(nearbyDevices)} (discoverable) devices nearby>")
@@ -47,7 +47,7 @@ def establishConnection(isMaster):
         try:
             masterSocket.connect( (serverAddress,port) )
         except Exception as e:
-            print("<Errpr connecting master socket>")
+            print("<Error connecting master socket>")
             print(e)
             return(False, masterSocket)
         #socket.send(...)
@@ -86,7 +86,7 @@ def chooseSlave(devicesList):
     slaveAddress = ""
     for addr, name in devicesList:
         if counter == slaveNum:
-            slaveAddress = addr
+            slaveAddress = addr.decode("utf-8")
             break
     #print(slaveAddress)
     return(slaveAddress)
