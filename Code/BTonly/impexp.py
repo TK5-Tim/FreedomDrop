@@ -94,14 +94,21 @@ def compareInventory(inventoryint, inventoryext):
         print("both logs are up to date!")
         return set()
 
-def sendInventory(inventoryDict, socket):
+def sendInventory(inventory, socket):
+    #TODO
     socket.send(inventoryDict)
 
 def receivePeerInventory(socket):
     #socket is a BluetoothSocket, not an IP socket!!!
     #peerInventoryByteSize =
     #if peerInventoryByteSize != None:
-    peerInventory = socket.receive()
+    #TODO
+    try:
+        peerInventory = socket.recv(2048)
+    except BluetoothError:
+        print(f"<Bluetooth error: {BluetoothError}>")
+    except Error:
+        print(f"Error: {Error}")
     return(peerInventory)
 
 def createPayload(fname, inventoryint, inventoryext):
