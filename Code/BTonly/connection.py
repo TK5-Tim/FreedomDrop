@@ -72,7 +72,7 @@ def establishConnection(isMaster):
             slaveSocket.listen(backlog)
         except Exception as e:
             print("<Failed listening on the slave socket>")
-            print(as e)
+            print(e)
             return(False, slaveSocket, masterSocket)
         try:
             masterSocket, masterInfo = slaveSocket.accept()
