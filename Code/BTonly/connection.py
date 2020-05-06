@@ -41,7 +41,7 @@ def establishConnection(isMaster):
             #socket.connect( (serverAddress,port) )
         except Exception:
             print(Exception)
-            return(False, masterSocket, "")
+            return(False, masterSocket)
         #socket.send(...)
         #disconnect(socket) This should be in another function
         print(f"{serverName} accepted our connection")
