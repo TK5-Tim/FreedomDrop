@@ -27,8 +27,14 @@ import cbor2
 import hashlib
 import subprocess
 import difflib
+import pathlib import Path
 
 def file_len(fname):
+    """
+    Function from Stack Overflow
+    Simply returns the amount of lines in the given file fname
+    It is possible that the file has to be a .txt
+    """
     p = subprocess.Popen(['wc', '-l', fname], stdout=subprocess.PIPE,
                                               stderr=subprocess.PIPE)
     result, err = p.communicate()
@@ -36,11 +42,23 @@ def file_len(fname):
         raise IOError(err)
     return int(result.strip().split()[0])
 
+def filesize(fname):
+    """
+    Simply returns the size of the file fname in bytes
+    """
+    return(Path(fname).stat().st_size)
+
 def importPCAP(fname):
+    """
+    Please comment
+    """
     log = pcap.PCAP(fname)
     return log
 
 def importInventory(fname):
+    """
+    Please comment
+    """
     inventory = open(fname)
     return inventory
 
@@ -49,6 +67,9 @@ def createEntry(rawEntry):
     pass
 
 def processEntry(formattedEntry):
+    """
+    Please comment
+    """
     try:
       if formattedEntry.seq_num == inventory[str(formattedEntry.feed_id)]:
           pass
@@ -56,7 +77,9 @@ def processEntry(formattedEntry):
       inventory[str(formattedEntry.feed_id)].append(formattedEntry)
 
 def createInventory(fname, inventoryDict):
-    #returns an inventory from the inventory dictionary
+    """
+    returns an inventory from the inventory dictionary
+    """
     log = importPCAP(fname)
     log.open('r')
     inventory = open(inventoryDict,'w+')
@@ -73,6 +96,9 @@ def createInventory(fname, inventoryDict):
     #inventory.close()
 
 def compareInventory(inventoryint, inventoryext):
+    """
+    Please comment
+    """
     seq_external = set()
     seq_internal = set()
     with open(inventoryint) as internal:
@@ -95,14 +121,20 @@ def compareInventory(inventoryint, inventoryext):
         return set()
 
 def sendInventory(inventory, socket):
-    #TODO
+    """
+    Please comment
+    """
+    #TODO: This code has not yet been tested
     socket.send(inventoryDict)
 
 def receivePeerInventory(socket):
     #socket is a BluetoothSocket, not an IP socket!!!
     #peerInventoryByteSize =
     #if peerInventoryByteSize != None:
-    #TODO
+    """
+    Please comment
+    """
+    #TODO: This code has not yet been tested
     try:
         peerInventory = socket.recv(2048)
     except BluetoothError:
@@ -112,6 +144,9 @@ def receivePeerInventory(socket):
     return(peerInventory)
 
 def createPayload(fname, inventoryint, inventoryext):
+    """
+    Please comment
+    """
     #how do we create the payload? As a clear text file just like we assume to store them locally?
     log = importPCAP(fname)
     payload = importPCAP('payload.pcap')
@@ -134,6 +169,9 @@ def createPayload(fname, inventoryint, inventoryext):
     log.close()
 
 def handlePayload(fname, payload, inventoryDict):
+    """
+    Please comment
+    """
     log = importPCAP(fname)
     payload = importPCAP(payload)
     log.open('a')
@@ -143,20 +181,33 @@ def handlePayload(fname, payload, inventoryDict):
     createInventory(fname,inventoryDict)
 
 def sendPayload(socket):
-    #TODO
+    """
+    Please comment
+    """
+    #TODO: Implement and test
     pass
 
 def receivePeerPayload(socket):
-    #Current code already depracated
-    #TODO
-  dataReceivedFromPeer = "" # receive using socket
-  if dataReceivedFromPeer:
-    for entry in dataReceivedFromPeer:
-      formattedEntry = createEntry(entry)
-      processEntry(formattedEntry)
-      return True
-  else:
-    return False
+    """
+    Please comment
+    """
+    #Current code already deprecated
+    #TODO: Implement and test
+    try:
+        dataReceivedFromPeer = socket.recv(4096) # receive using socket
+    except BluetoothError:
+        print(f"<Bluetooth error: {BluetoothError}>")
+    except Error:
+        print(f"Error: {Error}")
+
+    if dataReceivedFromPeer:
+        for entry in dataReceivedFromPeer:
+            formattedEntry = createEntry(entry)
+            processEntry(formattedEntry)
+        peerPayload = "???"
+        return(True,peerPayload)
+    else:
+        return(False,"")
 
 def sendOk():
     pass

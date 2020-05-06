@@ -63,6 +63,7 @@ while not connectionEstablished:
     #print(exception)
     #exit()
 
+
 #WHILE we are connected
 #Here used to be 'Depracted Code Snippet #1'
 if isMaster is True:
@@ -72,6 +73,8 @@ if isMaster is True:
     toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);
     impexp.sendPayload(toPeerPayload, masterSocket)
     dataReceived = impexp.receivePeerPayload(masterSocket)
+#TODO: process peer payload
+    print("<Your log database has been updated>")
 
 else:
     fromPeerInventoryList = impexp.receivePeerInventory(slaveSocket)
@@ -80,6 +83,8 @@ else:
     dataReceived = impexp.receivePeerPayload(slaveSocket)
     toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory);
     impexp.sendPayload(slaveSocket)
+#TODO: process peer payload
+    print("<Your log database has been updated>")
 
 if isMaster is True:
     disconnect([masterSocket, slaveSocket])
