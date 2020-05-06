@@ -46,9 +46,9 @@ def establishConnection(isMaster):
             return(False, masterSocket)
         try:
             masterSocket.connect( (serverAddress,port) )
-        except Exception:
+        except Exception as e:
             print("<Errpr connecting master socket>")
-            print(Exception)
+            print(e)
             return(False, masterSocket)
         #socket.send(...)
         #disconnect(socket) This should be in another function
