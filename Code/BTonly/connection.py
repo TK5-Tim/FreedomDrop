@@ -19,6 +19,7 @@ import sys
 
 nearbyDevices = ""
 socket = ""
+masterSocket = ""
 serverSocket = ""
 clientSocket = ""
 
@@ -26,6 +27,7 @@ def establishConnection(isMaster):
     """This function initiates a connection if called by masteror  powers up a server otherwise"""
 
     print("<Scanning...Please hold...>")
+    global masterSocket
     if isMaster:
         nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
         print(f"<The scan has discovered {len(nearbyDevices)} (discoverable) devices nearby>")
@@ -39,14 +41,14 @@ def establishConnection(isMaster):
             #socket.connect( (serverAddress,port) )
         except Exception:
             print(Exception)
-            return(False, masterSocket)
+            return(False, masterSocket, "")
         #socket.send(...)
         #disconnect(socket) This should be in another function
         print(f"{serverName} accepted our connection")
         return(True, masterSocket)
     else:
         backlog = 1
-        port = 1
+        port = 0
         try:
             slaveSocket = BluetoothSocket(RFCOMM)
             slaveSocket.bind( ("", port) )
