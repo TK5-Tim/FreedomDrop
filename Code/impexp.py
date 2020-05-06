@@ -73,15 +73,26 @@ def createInventory(fname, inventoryDict):
     #inventory.close()
 
 def compareInventory(inventoryint, inventoryext):
+    seq_external = set()
+    seq_internal = set()
     with open(inventoryint) as internal:
-        seq_internal = [line.rstrip('\n') for line in internal]
+        for line in internal: 
+            seq = int(line.rstrip('\n'))
+            seq_internal.add(seq)
+
     with open(inventoryext) as external:
-        seq_external = [line.rstrip('\n') for line in external]
+        for line in external: 
+            seq = int(line.rstrip('\n'))
+            seq_external.add(seq)
+    print(seq_external)
+    print(seq_internal)
     if seq_internal != seq_external: 
-        seq_diff = set(seq_external) - set(seq_internal)
+        seq_diff = seq_external - seq_internal
         print(seq_diff)
+        return seq_diff
     else:
         print("both logs are up to date!")
+        return set()
 
 def sendInventory(inventoryDict):
     pass
@@ -89,9 +100,35 @@ def sendInventory(inventoryDict):
 def receivePeerInventory():
     pass
 
-def createPayload(fromPeerInventoryDict, inventory):
-    #how do we create the payload? As a clear text file just like we assume to store them locally?
-    pass
+def createPayload(fname, inventoryint, inventoryext):
+    log = importPCAP(fname)
+    payload = importPCAP('payload.pcap')
+    seq_payload = compareInventory(inventoryint, inventoryext)
+    if seq_payload == set():
+        return
+    log.open('r')
+    payload.open('a')
+    for w in log: 
+        e = cbor2.loads(w)
+        href = hashlib.sha256(e[0]).digest()
+        e[0] = cbor2.loads(e[0])
+        # rewrite the packet's byte arrays for pretty printing:
+        e[0] = pcap.base64ify(e[0])
+        fid = e[0][0]
+        seq = e[0][1]
+        if seq in seq_payload:
+            payload.write(w)
+    payload.close()
+    log.close()
+    
+def handlePayload(fname, payload, inventoryDict):
+    log = importPCAP(fname)
+    payload = importPCAP(payload)
+    log.open('a')
+    payload.open('r')
+    for w in payload:
+        log.write(w)
+    createInventory(fname,inventoryDict)
 
 def sendPayload():
     pass
