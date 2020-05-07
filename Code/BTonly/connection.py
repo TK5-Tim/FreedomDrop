@@ -41,7 +41,6 @@ def establishConnection(isMaster):
 #        serverName = lookup_name(serverAddress)
 
         addr = '28:F0:76:68:C5:21'
-        print(type(addr))
         service_matches = find_service(uuid=uuid, address=addr)
 
         if len(service_matches) == 0:
