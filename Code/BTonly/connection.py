@@ -42,7 +42,7 @@ def establishConnection(isMaster):
 
         addr = '28:F0:76:68:C5:21'
 
-        service_matches = bluetooth.find_service(uuid=uuid, address=addr)
+        service_matches = find_service(uuid=uuid, address=addr)
 
         if len(service_matches) == 0:
                 print("Couldn't find the SampleServer service.")
