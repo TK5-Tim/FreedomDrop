@@ -26,17 +26,33 @@ clientSocket = ""
 def establishConnection(isMaster):
     """This function initiates a connection if called by masteror  powers up a server otherwise"""
 
-    print("<Scanning...Please hold...>")
     global masterSocket
     global slaveSocket
-    port = 0
+    uuid = "741f2065-c26a-45fc-b944-6b2bc018a6e8"
+    #port = 0
+
     if isMaster == 1:
+        print("<Scanning...Please hold...>")
         nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
         print(f"<The scan has discovered {len(nearbyDevices)} (discoverable) devices nearby>")
         #for addr, name in nearbyDevices:
         #    print(f"{addr}:{name}")
         serverAddress = chooseSlave(nearbyDevices)
         serverName = lookup_name(serverAddress)
+
+        addr = #
+
+        service_matches = bluetooth.find_service(uuid=uuid, address=addr)
+
+        if len(service_matches) == 0:
+                print("Couldn't find the SampleServer service.")
+        sys.exit(0)
+
+        first_match = service_matches[0]
+        port = first_match["port"]
+        name = first_match["name"]
+        host = first_match["host"]
+
         try:
             masterSocket = BluetoothSocket(RFCOMM)
             #print(f"<Now connecting to {serverName}:{serverAddress}>")
@@ -45,7 +61,7 @@ def establishConnection(isMaster):
             print(Exception)
             return(False, masterSocket)
         try:
-            masterSocket.connect( (serverAddress,port) )
+            masterSocket.connect( (host,port) )
         except Exception as e:
             print("<Error connecting master socket>")
             print(e)
@@ -55,6 +71,7 @@ def establishConnection(isMaster):
         print(f"{serverName} accepted our connection")
         return(True, masterSocket)
     else:
+    #SLAVE
         backlog = 1
         try:
             slaveSocket = BluetoothSocket(RFCOMM)
@@ -62,6 +79,7 @@ def establishConnection(isMaster):
             print("<Failed creating a Bluetooth socket>")
             print(e)
             return(False, slaveSocket, masterSocket)
+        print("<Succesfully created a socket>")
         try:
             slaveSocket.bind( ("", PORT_ANY) )
         except Exception as e:
@@ -74,12 +92,22 @@ def establishConnection(isMaster):
             print("<Failed listening on the slave socket>")
             print(e)
             return(False, slaveSocket, masterSocket)
-        try:
-            masterSocket, masterInfo = slaveSocket.accept()
-        except Exception as e:
+        #try:
+        port = slaveSocket.getsockname()[1]
+
+        advertise_service(slaveSocket, "FreedomDrop", service_id=uuid,
+                            service_classes=[uuid, SERIAL_PORT_CLASS],
+                            profiles=[SERIAL_PORT_PROFILE],
+                            # protocols=[bluetooth.OBEX_UUID]
+                            )
+        print("Waiting for connection on RFCOMM channel", port)
+        print("<Scanning...Please hold...>")
+
+        masterSocket, masterInfo = slaveSocket.accept()
+        """except Exception as e:
             print("<Error accepting a slave socket>")
             print(e)
-            return(False, slaveSocket, masterSocket)
+            return(False, slaveSocket, masterSocket)"""
 
         print(f"Accepted connection from {clientInfo}")
         #data = clientSocket.recv(...)
