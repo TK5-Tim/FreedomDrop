@@ -50,8 +50,7 @@ def establishConnection(isMaster):
         first_match = service_matches[0]
         port = first_match["port"]
         name = first_match["name"]
-        host = first_match["host"]
-
+        host = first_match["host"].decode("utf-8")
         try:
             masterSocket = BluetoothSocket(RFCOMM)
             #print(f"<Now connecting to {serverName}:{serverAddress}>")
@@ -67,7 +66,7 @@ def establishConnection(isMaster):
             return(False, masterSocket)
         #socket.send(...)
         #disconnect(socket) This should be in another function
-        print(f"{serverName} accepted our connection")
+ #       print(f"{serverName} accepted our connection")
         return(True, masterSocket)
     else:
     #SLAVE
@@ -108,7 +107,7 @@ def establishConnection(isMaster):
             print(e)
             return(False, slaveSocket, masterSocket)"""
 
-        print(f"Accepted connection from {clientInfo}")
+        print(f"Accepted connection from {masterInfo}")
         #data = clientSocket.recv(...)
         #print(f"received: {data}")
         #disconnect(clientSocket,serverSocket)  This shoudl be in another function
