@@ -45,8 +45,8 @@ def establishConnection(isMaster):
         service_matches = find_service(uuid=uuid, address=addr)
 
         if len(service_matches) == 0:
-                print("Couldn't find the SampleServer service.")
-                sys.exit(0)
+            print("Couldn't find the SampleServer service.")
+            sys.exit(0)
 
         first_match = service_matches[0]
         port = first_match["port"]
