@@ -139,8 +139,8 @@ def receivePeerInventory(socket):
         peerInventory = socket.recv(2048)
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
-    except Error:
-        print(f"Error: {Error}")
+    except Exception as e:
+        print("Error: %s" % e)
     return(peerInventory)
 
 def createPayload(fname, inventoryint, inventoryext):
