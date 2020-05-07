@@ -40,7 +40,7 @@ def establishConnection(isMaster):
         serverAddress = chooseSlave(nearbyDevices)
         serverName = lookup_name(serverAddress)
 
-        addr = #
+        addr = '28:F0:76:68:C5:21'
 
         service_matches = bluetooth.find_service(uuid=uuid, address=addr)
 
