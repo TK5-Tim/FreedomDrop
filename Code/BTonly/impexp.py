@@ -21,13 +21,13 @@ moved to a more appropriate module
 ### TODO: It would probably be good to create a Python method which turns .pcap files
 into Python objects which can then be parsed and handled easier (i.e. JSON objects)
 """
-
+from bluetooth import *
 import lib.pcap as pcap
 import cbor2
 import hashlib
 import subprocess
 import difflib
-import pathlib import Path
+from pathlib import Path
 
 def file_len(fname):
     """
@@ -139,8 +139,8 @@ def receivePeerInventory(socket):
         peerInventory = socket.recv(2048)
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
-    except Error:
-        print(f"Error: {Error}")
+    except Exception as e:
+        print("Error: %s" % e)
     return(peerInventory)
 
 def createPayload(fname, inventoryint, inventoryext):

@@ -19,42 +19,95 @@ import sys
 
 nearbyDevices = ""
 socket = ""
-serverSocket = ""
+masterSocket = ""
+slaveSocket = ""
 clientSocket = ""
 
 def establishConnection(isMaster):
     """This function initiates a connection if called by masteror  powers up a server otherwise"""
 
-    print("<Scanning...Please hold...>")
-    if isMaster:
-        nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
-        print(f"<The scan has discovered {len(nearbyDevices)} (discoverable) devices nearby>")
+    global masterSocket
+    global slaveSocket
+    uuid = "741f2065-c26a-45fc-b944-6b2bc018a6e8"
+    #port = 0
+
+    if isMaster == 1:
+        print("<Scanning...Please hold...>")
+#        nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
+#        print(f"<The scan has discovered {len(nearbyDevices)} (discoverable) devices nearby>")
         #for addr, name in nearbyDevices:
         #    print(f"{addr}:{name}")
-        serverAddress = chooseSlave(nearbyDevices)
-        serverName = lookup_name(serverAddress)
+#        serverAddress = chooseSlave(nearbyDevices)
+#        serverName = lookup_name(serverAddress)
+
+        addr = '28:F0:76:68:C5:21'
+        service_matches = find_service(uuid=uuid, address=addr)
+
+        if len(service_matches) == 0:
+                print("Couldn't find the SampleServer service.")
+                sys.exit(0)
+
+        first_match = service_matches[0]
+        port = first_match["port"]
+        name = first_match["name"]
+        host = first_match["host"].decode("utf-8")
         try:
             masterSocket = BluetoothSocket(RFCOMM)
             #print(f"<Now connecting to {serverName}:{serverAddress}>")
-            #socket.connect( (serverAddress,port) )
         except Exception:
+            print("<Error creating a master socket>")
             print(Exception)
+            return(False, masterSocket)
+        try:
+            masterSocket.connect( (host,port) )
+        except Exception as e:
+            print("<Error connecting master socket>")
+            print(e)
             return(False, masterSocket)
         #socket.send(...)
         #disconnect(socket) This should be in another function
-        print(f"{serverName} accepted our connection")
+ #       print(f"{serverName} accepted our connection")
         return(True, masterSocket)
     else:
+    #SLAVE
         backlog = 1
         try:
             slaveSocket = BluetoothSocket(RFCOMM)
-            slaveSocket.bind( ("", port) )
-            slaveSocket.listen(backlog)
-            masterSocket, masterInfo = slaveSocket.accept()
-        except Exception:
-            print(Exception)
+        except Exception as e:
+            print("<Failed creating a Bluetooth socket>")
+            print(e)
             return(False, slaveSocket, masterSocket)
-        print(f"Accepted connection from {clientInfo}")
+        print("<Succesfully created a socket>")
+        try:
+            slaveSocket.bind( ("", PORT_ANY) )
+        except Exception as e:
+            print(f"<Failed binding the socket to port {port}>")
+            print(e)
+            return(False, slaveSocket, masterSocket)
+        try:
+            slaveSocket.listen(backlog)
+        except Exception as e:
+            print("<Failed listening on the slave socket>")
+            print(e)
+            return(False, slaveSocket, masterSocket)
+        #try:
+        port = slaveSocket.getsockname()[1]
+
+        advertise_service(slaveSocket, "FreedomDrop", service_id=uuid,
+                            service_classes=[uuid, SERIAL_PORT_CLASS],
+                            profiles=[SERIAL_PORT_PROFILE],
+                            # protocols=[bluetooth.OBEX_UUID]
+                            )
+        print("Waiting for connection on RFCOMM channel", port)
+        print("<Scanning...Please hold...>")
+
+        masterSocket, masterInfo = slaveSocket.accept()
+        """except Exception as e:
+            print("<Error accepting a slave socket>")
+            print(e)
+            return(False, slaveSocket, masterSocket)"""
+
+        print(f"Accepted connection from {masterInfo}")
         #data = clientSocket.recv(...)
         #print(f"received: {data}")
         #disconnect(clientSocket,serverSocket)  This shoudl be in another function
@@ -73,9 +126,9 @@ def chooseSlave(devicesList):
     slaveNum = int(input("Choose the slave by typing their number [x] >>"))
     counter = 1
     slaveAddress = ""
-    for addr, name in nearbyDevices:
+    for addr, name in devicesList:
         if counter == slaveNum:
-            slaveAddress = addr
+            slaveAddress = addr.decode("utf-8")
             break
     #print(slaveAddress)
     return(slaveAddress)
