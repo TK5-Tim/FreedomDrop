@@ -13,7 +13,8 @@ from bluetooth import *
 connectionEstablished = False
 dataReceived = False
 okReceived = False
-inventory = "test.pcap"
+log = "test.pcap"
+inventory = "test.txt"
 payload = list()
 peerPayload = list()
 peerInventory = ""
@@ -66,10 +67,10 @@ while not connectionEstablished:
 #WHILE we are connected
 #Here used to be 'Depracted Code Snippet #1'
 if isMaster == 1:
-    toPeerInventoryList = impexp.createInventory(inventory)
+    toPeerInventoryList = impexp.createInventory(log, inventory)
     impexp.sendInventory(toPeerInventoryList,slaveSocket)
     fromPeerInventoryList = impexp.receivePeerInventory(slaveSocket)
-    toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory)
+    toPeerPayload = impexp.createPayload(log, inventory, fromPeerInventoryList)
     impexp.sendPayload(toPeerPayload, slaveSocket)
     dataReceived = impexp.receivePeerPayload(slaveSocket)
 #TODO: process peer payload
@@ -77,10 +78,10 @@ if isMaster == 1:
 
 else:
     fromPeerInventoryList = impexp.receivePeerInventory(masterSocket)
-    toPeerInventoryList = impexp.createInventory(inventory)
+    toPeerInventoryList = impexp.createInventory(log, inventory)
     impexp.sendInventory(toPeerInventoryList,masterSocket)
     dataReceived = impexp.receivePeerPayload(masterSocket)
-    toPeerPayload = impexp.createPayload(fromPeerInventoryList, inventory)
+    toPeerPayload = impexp.createPayload(log, inventory, fromPeerInventoryList)
     impexp.sendPayload(masterSocket)
 #TODO: process peer payload
     print("<Your log database has been updated>")
