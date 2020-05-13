@@ -158,6 +158,7 @@ def receivePeerInventory(socket):
                 print(peerInventory)
                 with open("inventoryPeer.txt","w") as external:
                     external.write(peerInventory)
+                return
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
