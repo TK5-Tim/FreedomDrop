@@ -50,18 +50,19 @@ def filesize(fname):
 
 def importPCAP(fname):
     """
-    Please comment
+    Imports the pcap file in the specific format specified int the pcap.PCAP function from the demo files of Professor Tschudin.
     """
     log = pcap.PCAP(fname)
     return log
 
 def importInventory(fname):
     """
-    Please comment
+    Imports a specifed txt-file.
     """
     inventory = open(fname)
     return inventory
 
+'''
 def createEntry(rawEntry):
     #return(entryTuple)
     pass
@@ -75,10 +76,15 @@ def processEntry(formattedEntry):
           pass
     except KeyError:
       inventory[str(formattedEntry.feed_id)].append(formattedEntry)
+'''
+
 
 def createInventory(fname, inventoryDict):
     """
-    returns an inventory from the inventory dictionary
+    writes the Inventory of all logs that are stored in a pcap file (fname) to the givent inventory file as txt. 
+    fname - pcap file
+    inventroryDict - txt where the inventory should be stored in
+    TODO: work with hashes of log.
     """
     log = importPCAP(fname)
     log.open('r')
@@ -97,7 +103,9 @@ def createInventory(fname, inventoryDict):
 
 def compareInventory(inventoryint, inventoryext):
     """
-    Please comment
+    Compares two txt-files who are intended as inventories of pcap files that log the different messages.
+    At the moment it only compares the indexes 
+    TODO: work with hashes of log.
     """
     seq_external = set()
     seq_internal = set()
@@ -122,7 +130,7 @@ def compareInventory(inventoryint, inventoryext):
 
 def sendInventory(inventory, socket):
     """
-    Please comment
+   
     """
     #TODO: This code has not yet been tested
     socket.send(inventory)
@@ -149,7 +157,7 @@ def receivePeerInventory(socket):
 
 def createPayload(fname, inventoryint, inventoryext):
     """
-    Please comment
+    creates payload pcap file with the missing pcap files for the peer.
     """
     #how do we create the payload? As a clear text file just like we assume to store them locally?
     log = importPCAP(fname)
@@ -174,7 +182,7 @@ def createPayload(fname, inventoryint, inventoryext):
 
 def handlePayload(fname, payload, inventoryDict):
     """
-    Please comment
+    takes the Payload of the peer specified for the local log and writes 
     """
     log = importPCAP(fname)
     payload = importPCAP(payload)
@@ -189,7 +197,6 @@ def sendPayload(socket):
     Please comment
     """
     #TODO: Implement and test
-
     pass
 
 def receivePeerPayload(socket):
