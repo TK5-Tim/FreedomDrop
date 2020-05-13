@@ -82,7 +82,7 @@ if isMaster == 1:
     print("<Your log database has been updated>")
 
 else:
-    fromPeerInventoryList = impexp.receivePeerInventory(masterSocket)
+    fromPeerInventoryList = impexp.receivePeerInventory(slaveSocket)
     print("#1")
     toPeerInventoryList = impexp.createInventory(log, inventory)
     print("#2")
