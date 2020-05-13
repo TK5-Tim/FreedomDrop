@@ -33,14 +33,14 @@ def establishConnection(isMaster):
 
     if isMaster == 1:
         print("<Scanning...Please hold...>")
-#        nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
-#        print(f"<The scan has discovered {len(nearbyDevices)} (discoverable) devices nearby>")
-        #for addr, name in nearbyDevices:
-        #    print(f"{addr}:{name}")
-#        serverAddress = chooseSlave(nearbyDevices)
+        nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
+        print(f"<The scan has discovered {len(nearbyDevices)} (discoverable) devices nearby>")
+        for addr, name in nearbyDevices:
+            print(f"{addr}:{name}")
+        addr = chooseSlave(nearbyDevices)
 #        serverName = lookup_name(serverAddress)
 
-        addr = '28:F0:76:68:C5:21'
+        #addr = '28:F0:76:68:C5:21'
         service_matches = find_service(uuid=uuid, address=addr)
 
         if len(service_matches) == 0:
