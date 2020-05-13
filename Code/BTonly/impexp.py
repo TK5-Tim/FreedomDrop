@@ -213,8 +213,8 @@ def receivePeerPayload(socket):
         dataReceivedFromPeer = socket.recv(4096) # receive using socket
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
-    except Error:
-        print(f"Error: {Error}")
+    except Exception as e:
+        print(e)
 
     if dataReceivedFromPeer:
         for entry in dataReceivedFromPeer:
