@@ -125,7 +125,7 @@ def sendInventory(inventory, socket):
     Please comment
     """
     #TODO: This code has not yet been tested
-    socket.send(inventoryDict)
+    socket.send(inventory)
 
 def receivePeerInventory(socket):
     #socket is a BluetoothSocket, not an IP socket!!!
