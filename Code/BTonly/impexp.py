@@ -152,7 +152,8 @@ def receivePeerInventory(socket):
     #TODO: This code has not yet been tested
     try:
         while 1:
-            peerInventory = socket.recv(2048)
+            receivedInventory = socket.recv(2048)
+            peerInventory = receivedInventory.decode('utf-8')
             if peerInventory:
                 print(peerInventory)
                 return(peerInventory)
