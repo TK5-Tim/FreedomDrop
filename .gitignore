@@ -4,7 +4,8 @@
 
 # important files for pcap 
 *.key
-
+logtextfile.txt
+test.txt
 
 
 ### macOS ###
