@@ -136,7 +136,11 @@ def receivePeerInventory(socket):
     """
     #TODO: This code has not yet been tested
     try:
-        peerInventory = socket.recv(2048)
+        while 1:
+            peerInventory = socket.recv(2048)
+            if peerInventory:
+                print(peerInventory)
+                break;
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
@@ -185,6 +189,7 @@ def sendPayload(socket):
     Please comment
     """
     #TODO: Implement and test
+
     pass
 
 def receivePeerPayload(socket):
