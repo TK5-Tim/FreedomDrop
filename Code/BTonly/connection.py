@@ -97,7 +97,6 @@ def establishConnection(isMaster):
             print("<Failed listening on the slave socket>")
             print(e)
             return(False, slaveSocket, masterSocket)
-        #try:
         port = slaveSocket.getsockname()[1]
 
         advertise_service(slaveSocket, "FreedomDrop", service_id=uuid,
@@ -107,12 +106,12 @@ def establishConnection(isMaster):
                             )
         print("Waiting for connection on RFCOMM channel", port)
         print("<Scanning...Please hold...>")
-
-        masterSocket, masterInfo = slaveSocket.accept()
-        """except Exception as e:
+        try:
+            masterSocket, masterInfo = slaveSocket.accept()
+        except Exception as e:
             print("<Error accepting a slave socket>")
             print(e)
-            return(False, slaveSocket, masterSocket)"""
+            return(False, slaveSocket, masterSocket)
 
         print(f"Accepted connection from {masterInfo}")
         #data = clientSocket.recv(...)
