@@ -129,6 +129,7 @@ def sendInventory(inventory, socket):
     SendData = file.read(512)
     while SendData:
         socket.send(SendData)
+        SendData = file.read(512)
 
 def receivePeerInventory(socket):
     #socket is a BluetoothSocket, not an IP socket!!!
