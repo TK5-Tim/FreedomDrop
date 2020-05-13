@@ -68,20 +68,30 @@ while not connectionEstablished:
 #Here used to be 'Depracted Code Snippet #1'
 if isMaster == 1:
     toPeerInventoryList = impexp.createInventory(log, inventory)
+    print("#1")
     impexp.sendInventory(toPeerInventoryList,slaveSocket)
+    print("#2")
     fromPeerInventoryList = impexp.receivePeerInventory(slaveSocket)
+    print("#3")
     toPeerPayload = impexp.createPayload(log, inventory, fromPeerInventoryList)
+    print("#4")
     impexp.sendPayload(toPeerPayload, slaveSocket)
+    print("#5")
     dataReceived = impexp.receivePeerPayload(slaveSocket)
 #TODO: process peer payload
     print("<Your log database has been updated>")
 
 else:
     fromPeerInventoryList = impexp.receivePeerInventory(masterSocket)
+    print("#1")
     toPeerInventoryList = impexp.createInventory(log, inventory)
+    print("#2")
     impexp.sendInventory(toPeerInventoryList,masterSocket)
+    print("#3")
     dataReceived = impexp.receivePeerPayload(masterSocket)
+    print("#4")
     toPeerPayload = impexp.createPayload(log, inventory, fromPeerInventoryList)
+    print("#5")
     impexp.sendPayload(masterSocket)
 #TODO: process peer payload
     print("<Your log database has been updated>")
