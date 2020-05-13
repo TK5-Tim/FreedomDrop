@@ -99,7 +99,7 @@ def createInventory(fname, inventoryDict):
         seq = e[0][1]
         inventory.write("%d \n" % seq)
     log.close()
-    #inventory.close()
+    inventory.close()
 
 def compareInventory(inventoryint, inventoryext):
     """
@@ -133,11 +133,14 @@ def sendInventory(inventory, socket):
 
     """
     #TODO: This code has not yet been tested
-    file = open("logtextfile.txt")
-    SendData = file.read(512)
-    while SendData:
-        socket.send(SendData.encode('utf-8'))
+    try:
+        file = open("logtextfile.txt")
         SendData = file.read(512)
+        while SendData:
+            socket.send(SendData.encode('utf-8'))
+            SendData = file.read(512)
+    except Exception as e: 
+        print("Error: %s" % e)
 
 def receivePeerInventory(socket):
     #socket is a BluetoothSocket, not an IP socket!!!
