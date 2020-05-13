@@ -81,7 +81,7 @@ def processEntry(formattedEntry):
 
 def createInventory(fname, inventoryDict):
     """
-    writes the Inventory of all logs that are stored in a pcap file (fname) to the givent inventory file as txt. 
+    writes the Inventory of all logs that are stored in a pcap file (fname) to the givent inventory file as txt.
     fname - pcap file
     inventroryDict - txt where the inventory should be stored in
     TODO: work with hashes of log.
@@ -104,7 +104,7 @@ def createInventory(fname, inventoryDict):
 def compareInventory(inventoryint, inventoryext):
     """
     Compares two txt-files who are intended as inventories of pcap files that log the different messages.
-    At the moment it only compares the indexes 
+    At the moment it only compares the indexes
     TODO: work with hashes of log.
     """
     seq_external = set()
@@ -130,7 +130,7 @@ def compareInventory(inventoryint, inventoryext):
 
 def sendInventory(inventory, socket):
     """
-   
+
     """
     #TODO: This code has not yet been tested
     file = open("logtextfile.txt")
@@ -152,7 +152,7 @@ def receivePeerInventory(socket):
             peerInventory = socket.recv(2048)
             if peerInventory:
                 print(peerInventory)
-                break
+                return(peerInventory)
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
@@ -186,7 +186,7 @@ def createPayload(fname, inventoryint, inventoryext):
 
 def handlePayload(fname, payload, inventoryDict):
     """
-    takes the Payload of the peer specified for the local log and writes 
+    takes the Payload of the peer specified for the local log and writes
     """
     log = importPCAP(fname)
     payload = importPCAP(payload)
