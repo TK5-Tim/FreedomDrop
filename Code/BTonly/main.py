@@ -18,7 +18,7 @@ inventory = "logtextfile.txt"
 payload = list()
 peerPayload = list()
 peerInventory = ""
-peerInventoryList = ""
+peerInventoryList = "inventoryPeer.txt"
 
 
 #BEFORE we are connected
@@ -73,7 +73,7 @@ if isMaster == 1:
     print("#2")
     fromPeerInventoryList = impexp.receivePeerInventory(slaveSocket)
     print("#3")
-    toPeerPayload = impexp.createPayload(log, inventory, fromPeerInventoryList)
+    toPeerPayload = impexp.createPayload(log, inventory, peerInventoryList)
     print("#4")
     impexp.sendPayload(toPeerPayload, slaveSocket)
     print("#5")

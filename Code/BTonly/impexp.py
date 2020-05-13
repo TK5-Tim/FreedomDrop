@@ -156,7 +156,8 @@ def receivePeerInventory(socket):
             peerInventory = receivedInventory.decode('utf-8')
             if peerInventory:
                 print(peerInventory)
-                return(peerInventory)
+                with open("inventoryPeer.txt","w") as external:
+                    external.write(peerInventory)
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
