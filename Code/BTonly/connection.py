@@ -16,6 +16,7 @@ from impexp import *
 import struct
 import os
 import sys
+import subprocess
 
 nearbyDevices = ""
 socket = ""
@@ -30,6 +31,9 @@ def establishConnection(isMaster):
     global slaveSocket
     uuid = "741f2065-c26a-45fc-b944-6b2bc018a6e8"
     #port = 0
+
+    # kill any "bluetooth-agent" process that is already running
+    subprocess.call("kill -9 `pidof bluetooth-agent`",shell=True)
 
     if isMaster == 1:
         print("<Scanning...Please hold...>")
