@@ -136,7 +136,7 @@ def sendInventory(inventory, socket):
     file = open("logtextfile.txt")
     SendData = file.read(512)
     while SendData:
-        socket.send(SendData)
+        socket.send(SendData.encode('utf-8'))
         SendData = file.read(512)
 
 def receivePeerInventory(socket):
