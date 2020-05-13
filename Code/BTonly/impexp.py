@@ -125,7 +125,10 @@ def sendInventory(inventory, socket):
     Please comment
     """
     #TODO: This code has not yet been tested
-    socket.send(inventory)
+    file = open("logtextfile.txt")
+    SendData = file.read(512)
+    while SendData:
+        socket.send(SendData)
 
 def receivePeerInventory(socket):
     #socket is a BluetoothSocket, not an IP socket!!!
@@ -140,7 +143,7 @@ def receivePeerInventory(socket):
             peerInventory = socket.recv(2048)
             if peerInventory:
                 print(peerInventory)
-                break;
+                break
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
