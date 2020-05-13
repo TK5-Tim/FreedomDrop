@@ -73,7 +73,7 @@ def establishConnection(isMaster):
         return(True, masterSocket)
     else:
     #SLAVE
-        backlog = 1
+        backlog = 3
         try:
             slaveSocket = BluetoothSocket(RFCOMM)
         except Exception as e:
