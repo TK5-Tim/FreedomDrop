@@ -73,9 +73,9 @@ if isMaster == 1:
     print("#2")
     fromPeerInventoryList = impexp.receivePeerInventory(slaveSocket)
     print("#3")
-    toPeerPayload = impexp.createPayload(log, inventory, peerInventoryList)
+    impexp.createPayload(log, inventory, peerInventoryList)
     print("#4")
-    impexp.sendPayload(toPeerPayload, slaveSocket)
+    impexp.sendPayload(slaveSocket)
     print("#5")
     dataReceived = impexp.receivePeerPayload(slaveSocket)
 #TODO: process peer payload
