@@ -34,6 +34,9 @@ def establishConnection(isMaster):
     if isMaster == 1:
         print("<Scanning...Please hold...>")
         nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
+        while len(nearbyDevices) == 0:
+                print("<Scanning...Please hold...>")
+                nearbyDevices = discover_devices(lookup_names=True,flush_cache=True)
         print(f"<The scan has discovered {len(nearbyDevices)} (discoverable) devices nearby>")
         for addr, name in nearbyDevices:
             print(f"{addr}:{name}")
