@@ -30,7 +30,7 @@ def establishConnection(isMaster):
     global masterSocket
     global slaveSocket
     uuid = "741f2065-c26a-45fc-b944-6b2bc018a6e8"
-    #port = 0
+    port = 0
 
     # kill any "bluetooth-agent" process that is already running
     subprocess.call("kill -9 `pidof bluetooth-agent`",shell=True)
@@ -86,7 +86,7 @@ def establishConnection(isMaster):
             return(False, slaveSocket, masterSocket)
         print("<Succesfully created a socket>")
         try:
-            slaveSocket.bind( ("", PORT_ANY) )
+            slaveSocket.bind( ("", port) )
         except Exception as e:
             print(f"<Failed binding the socket to port {port}>")
             print(e)
