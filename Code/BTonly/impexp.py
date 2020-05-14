@@ -229,12 +229,15 @@ def sendPayload(socket):
     # TODO: Implement and test
     try:
         file = open("payload.pcap")
+        print("send #1")
         SendData = file.read(512)
+        print("send #2")
         while SendData:
             socket.send(SendData)
             SendData = file.read(512)
+        print("send #3")
     except Exception as e:
-        print("Error: %s" % e)
+        print("Error #1: %s" % e)
 
 
 def receivePeerPayload(socket):
@@ -248,14 +251,13 @@ def receivePeerPayload(socket):
             dataReceivedFromPeer = socket.recv(4096)  # receive using socket
             peerPayload = dataReceivedFromPeer
             if peerPayload:
-                print(peerPayload)
                 with open("peerPayload.pcap") as external:
                     external.write(peerPayload)
                 return
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
-        print("Error: %s" % e)
+        print("Error #1: %s" % e)
     return
 
 
