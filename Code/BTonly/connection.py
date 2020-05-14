@@ -86,7 +86,7 @@ def establishConnection(isMaster):
             return(False, slaveSocket, masterSocket)
         print("<Succesfully created a socket>")
         try:
-            slaveSocket.bind( ("", PORT_ANY) )
+            slaveSocket.bind( ("",5) )
         except Exception as e:
             print(f"<Failed binding the socket to port {port}>")
             print(e)
