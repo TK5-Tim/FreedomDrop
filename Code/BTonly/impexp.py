@@ -228,10 +228,10 @@ def sendPayload(socket):
     """
     # TODO: Implement and test
     try:
-        file = open("logtextfile.txt")
+        file = open("payload.pcap")
         SendData = file.read(512)
         while SendData:
-            socket.send(SendData.encode('utf-8'))
+            socket.send(SendData)
             SendData = file.read(512)
     except Exception as e:
         print("Error: %s" % e)
@@ -246,10 +246,10 @@ def receivePeerPayload(socket):
     try:
         while 1:
             dataReceivedFromPeer = socket.recv(4096)  # receive using socket
-            peerPayload = dataReceivedFromPeer.decode('utf-8')
+            peerPayload = dataReceivedFromPeer
             if peerPayload:
                 print(peerPayload)
-                with open("") as external:
+                with open("peerPayload.pcap") as external:
                     external.write(peerPayload)
                 return
     except BluetoothError:
