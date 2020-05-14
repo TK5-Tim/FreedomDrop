@@ -121,8 +121,7 @@ def compareInventory(inventoryint, inventoryext):
     print(seq_external)
     print(seq_internal)
     if seq_internal != seq_external:
-        seq_diff = seq_external - seq_internal
-        print(seq_diff)
+        seq_diff = seq_internal - seq_external
         return seq_diff
     else:
         print("both logs are up to date!")
@@ -172,11 +171,13 @@ def createPayload(fname, inventoryint, inventoryext):
     #how do we create the payload? As a clear text file just like we assume to store them locally?
     log = importPCAP(fname)
     payload = importPCAP('payload.pcap')
+    print('created payload file')
     seq_payload = compareInventory(inventoryint, inventoryext)
     if seq_payload == set():
+        print('both files are the same')
         return
     log.open('r')
-    payload.open('a')
+    payload.open('w')
     for w in log:
         e = cbor2.loads(w)
         href = hashlib.sha256(e[0]).digest()
@@ -185,6 +186,7 @@ def createPayload(fname, inventoryint, inventoryext):
         e[0] = pcap.base64ify(e[0])
         fid = e[0][0]
         seq = e[0][1]
+        print(seq)
         if seq in seq_payload:
             payload.write(w)
     payload.close()
