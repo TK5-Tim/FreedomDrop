@@ -178,12 +178,13 @@ def createPayload(fname, inventoryint, inventoryext):
     log = importPCAP(fname)
     payload = importPCAP('payload.pcap')
     print('created payload file')
+    payload.open('w')
     seq_payload = compareInventory(inventoryint, inventoryext)
     if seq_payload == set():
-        print('both files are the same')
+        print('the payload is empty')
+        payload.write(b'e')
         return
     log.open('r')
-    payload.open('w')
     for w in log:
         e = cbor2.loads(w)
         href = hashlib.sha256(e[0]).digest()
