@@ -28,6 +28,7 @@ import hashlib
 import subprocess
 import difflib
 from pathlib import Path
+import os
 
 def file_len(fname):
     """
@@ -89,6 +90,7 @@ def createInventory(fname, inventoryDict):
     log = importPCAP(fname)
     log.open('r')
     inventory = open(inventoryDict,'w+')
+    inventory.write('inventory\n')
     for w in log:
         e = cbor2.loads(w)
         href = hashlib.sha256(e[0]).digest()
@@ -111,13 +113,17 @@ def compareInventory(inventoryint, inventoryext):
     seq_internal = set()
     with open(inventoryint) as internal:
         for line in internal:
-            seq = int(line.rstrip('\n'))
-            seq_internal.add(seq)
+            seq = line.rstrip('\n')
+            if seq == "inventory":
+                continue
+            seq_internal.add(int(seq))
 
     with open(inventoryext) as external:
         for line in external:
-            seq = int(line.rstrip('\n'))
-            seq_external.add(seq)
+            seq = line.rstrip('\n')
+            if seq == "inventory":
+                continue
+            seq_external.add(int(seq))
     print(seq_external)
     print(seq_internal)
     if seq_internal != seq_external:
