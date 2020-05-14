@@ -87,7 +87,7 @@ def establishConnection(isMaster):
             return (False, slaveSocket, masterSocket)
         print("<Succesfully created a socket>")
         try:
-            slaveSocket.bind(("", poport))
+            slaveSocket.bind(("", port))
         except Exception as e:
             print(f"<Failed binding the socket to port {port}>")
             print(e)
@@ -98,8 +98,7 @@ def establishConnection(isMaster):
             print("<Failed listening on the slave socket>")
             print(e)
             return (False, slaveSocket, masterSocket)
-    """port = slaveSocket.getsockname()[1]"""
-    port = 0
+    port = slaveSocket.getsockname()[1]
 
     advertise_service(slaveSocket, "FreedomDrop", service_id=uuid,
                       service_classes=[uuid, SERIAL_PORT_CLASS],
