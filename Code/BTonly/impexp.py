@@ -30,6 +30,7 @@ import difflib
 from pathlib import Path
 import os
 
+
 def file_len(fname):
     """
     Function from Stack Overflow
@@ -37,17 +38,19 @@ def file_len(fname):
     It is possible that the file has to be a .txt
     """
     p = subprocess.Popen(['wc', '-l', fname], stdout=subprocess.PIPE,
-                                              stderr=subprocess.PIPE)
+                         stderr=subprocess.PIPE)
     result, err = p.communicate()
     if p.returncode != 0:
         raise IOError(err)
     return int(result.strip().split()[0])
 
+
 def filesize(fname):
     """
     Simply returns the size of the file fname in bytes
     """
-    return(Path(fname).stat().st_size)
+    return (Path(fname).stat().st_size)
+
 
 def importPCAP(fname):
     """
@@ -56,12 +59,14 @@ def importPCAP(fname):
     log = pcap.PCAP(fname)
     return log
 
+
 def importInventory(fname):
     """
     Imports a specifed txt-file.
     """
     inventory = open(fname)
     return inventory
+
 
 '''
 def createEntry(rawEntry):
@@ -89,7 +94,7 @@ def createInventory(fname, inventoryDict):
     """
     log = importPCAP(fname)
     log.open('r')
-    inventory = open(inventoryDict,'w+')
+    inventory = open(inventoryDict, 'w+')
     inventory.write('inventory\n')
     for w in log:
         e = cbor2.loads(w)
@@ -102,6 +107,7 @@ def createInventory(fname, inventoryDict):
         inventory.write("%d \n" % seq)
     log.close()
     inventory.close()
+
 
 def compareInventory(inventoryint, inventoryext):
     """
@@ -133,35 +139,37 @@ def compareInventory(inventoryint, inventoryext):
         print("both logs are up to date!")
         return set()
 
+
 def sendInventory(inventory, socket):
     """
 
     """
-    #TODO: This code has not yet been tested
+    # TODO: This code has not yet been tested
     try:
         file = open("logtextfile.txt")
         SendData = file.read(512)
         while SendData:
             socket.send(SendData.encode('utf-8'))
             SendData = file.read(512)
-    except Exception as e: 
+    except Exception as e:
         print("Error: %s" % e)
 
+
 def receivePeerInventory(socket):
-    #socket is a BluetoothSocket, not an IP socket!!!
-    #peerInventoryByteSize =
-    #if peerInventoryByteSize != None:
+    # socket is a BluetoothSocket, not an IP socket!!!
+    # peerInventoryByteSize =
+    # if peerInventoryByteSize != None:
     """
     Please comment
     """
-    #TODO: This code has not yet been tested
+    # TODO: This code has not yet been tested
     try:
         while 1:
             receivedInventory = socket.recv(2048)
             peerInventory = receivedInventory.decode('utf-8')
             if peerInventory:
                 print(peerInventory)
-                with open("inventoryPeer.txt","w") as external:
+                with open("inventoryPeer.txt", "w") as external:
                     external.write(peerInventory)
                 return
     except BluetoothError:
@@ -170,11 +178,12 @@ def receivePeerInventory(socket):
         print("Error: %s" % e)
     return
 
+
 def createPayload(fname, inventoryint, inventoryext):
     """
     creates payload pcap file with the missing pcap files for the peer.
     """
-    #how do we create the payload? As a clear text file just like we assume to store them locally?
+    # how do we create the payload? As a clear text file just like we assume to store them locally?
     log = importPCAP(fname)
     payload = importPCAP('payload.pcap')
     print('created payload file')
@@ -199,6 +208,7 @@ def createPayload(fname, inventoryint, inventoryext):
     payload.close()
     log.close()
 
+
 def handlePayload(fname, payload, inventoryDict):
     """
     takes the Payload of the peer specified for the local log and writes
@@ -209,28 +219,47 @@ def handlePayload(fname, payload, inventoryDict):
     payload.open('r')
     for w in payload:
         log.write(w)
-    createInventory(fname,inventoryDict)
+    createInventory(fname, inventoryDict)
+
 
 def sendPayload(socket):
     """
     Please comment
     """
-    #TODO: Implement and test
-    pass
+    # TODO: Implement and test
+    try:
+        file = open("logtextfile.txt")
+        SendData = file.read(512)
+        while SendData:
+            socket.send(SendData.encode('utf-8'))
+            SendData = file.read(512)
+    except Exception as e:
+        print("Error: %s" % e)
+
 
 def receivePeerPayload(socket):
     """
     Please comment
     """
-    #Current code already deprecated
-    #TODO: Implement and test
+    # Current code already deprecated
+    # TODO: Implement and test
     try:
-        dataReceivedFromPeer = socket.recv(4096) # receive using socket
+        while 1:
+            dataReceivedFromPeer = socket.recv(4096)  # receive using socket
+            peerPayload = dataReceivedFromPeer.decode('utf-8')
+            if peerPayload:
+                print(peerPayload)
+                with open("") as external:
+                    external.write(peerPayload)
+                return
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
-        print(e)
+        print("Error: %s" % e)
+    return
 
+
+"""
     if dataReceivedFromPeer:
         for entry in dataReceivedFromPeer:
             formattedEntry = createEntry(entry)
@@ -239,9 +268,12 @@ def receivePeerPayload(socket):
         return(True,peerPayload)
     else:
         return(False,"")
+"""
+
 
 def sendOk():
     pass
+
 
 def terminate():
     pass
