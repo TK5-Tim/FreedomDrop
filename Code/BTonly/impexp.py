@@ -146,7 +146,7 @@ def sendInventory(inventory, socket):
     """
     # TODO: This code has not yet been tested
     try:
-        file = open("logtextfile.txt")
+        file = open(inventory)
         SendData = file.read(512)
         while SendData:
             socket.send(SendData.encode('utf-8'))
@@ -169,7 +169,7 @@ def receivePeerInventory(socket):
             if peerInventory:
                 with open("inventoryPeer.txt", "w") as external:
                     external.write(peerInventory)
-                    print("received Inventory from Peer")
+                    print("<received Inventory from Peer>")
                 return
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
@@ -229,14 +229,12 @@ def sendPayload(socket):
     # TODO: Implement and test
     try:
         payload = importPCAP("payload.pcap")
-        print("send #1")
         payload.open('r')
         for w in payload:
             socket.send(w)
-        print("send #3")
         payload.close()
     except Exception as e:
-        print("Error #1: %s" % e)
+        print("Error: %s" % e)
 
 
 def receivePeerPayload(socket):
