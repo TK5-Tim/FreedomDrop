@@ -35,6 +35,7 @@ def establishConnection(isMaster):
         serverName = lookup_name(serverAddress)
         try:
             socket = BluetoothSocket(RFCOMM)
+            socket.settimeout(30)
             #print(f"<Now connecting to {serverName}:{serverAddress}>")
             #socket.connect( (serverAddress,port) )
         except Exception:
@@ -46,6 +47,7 @@ def establishConnection(isMaster):
     else:
         backlog = 1
         serverSocket = BluetoothSocket(RFCOMM)
+        serverSocket.settimeout(30)
         serverSocket.bind( ("", port) )
         serverSocket.listen(backlog)
         clientSocket, clientInfo = serverSocket.accept()
