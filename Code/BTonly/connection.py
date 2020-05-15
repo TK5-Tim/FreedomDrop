@@ -131,8 +131,9 @@ def chooseSlave(devicesList):
         nameList.append(name)
         counter += 1
     slaveNum = int(input("Choose the slave by typing their number [x] >>"))
-    if slaveNum == 0:
-        return([])
+    while slaveNum == 0:
+        nearbyDevices = discover_devices(lookup_names=True, flush_cache=True)
+        devicesList = nearbyDevices
     counter = 1
     slaveAddress = ""
     for addr, name in devicesList:
