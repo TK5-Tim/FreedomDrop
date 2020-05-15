@@ -219,7 +219,6 @@ def handlePayload(fname, payload, inventoryDict):
     payload.open('r')
     for w in payload:
         log.write(w)
-    createInventory(fname, inventoryDict)
     log.close()
 
 
