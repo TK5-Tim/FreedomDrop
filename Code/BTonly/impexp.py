@@ -230,6 +230,7 @@ def sendPayload(socket):
     # TODO: Implement and test
     try:
         payload = importPCAP("payload.pcap")
+        payload.open('r')
         print("<read Data>")
         SendData = payload.read()
         print("<read Data>")
