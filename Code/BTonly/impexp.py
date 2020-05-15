@@ -162,7 +162,6 @@ def receivePeerInventory(socket):
     """
     Please comment
     """
-    # TODO: This code has not yet been tested
     try:
         while 1:
             receivedInventory = socket.recv(2048)
@@ -220,6 +219,7 @@ def handlePayload(fname, payload, inventoryDict):
     for w in payload:
         log.write(w)
     createInventory(fname, inventoryDict)
+    log.close()
 
 
 def sendPayload(socket):
@@ -228,14 +228,13 @@ def sendPayload(socket):
     """
     # TODO: Implement and test
     try:
-        file = open("payload.pcap")
+        payload = importPCAP("payload.pcap")
         print("send #1")
-        SendData = file.read(512)
-        print("send #2")
-        while SendData:
-            socket.send(SendData)
-            SendData = file.read(512)
+        payload.open('r')
+        for w in payload:
+            socket.send(w)
         print("send #3")
+        payload.close()
     except Exception as e:
         print("Error #1: %s" % e)
 
@@ -247,12 +246,13 @@ def receivePeerPayload(socket):
     # Current code already deprecated
     # TODO: Implement and test
     try:
+        peerpayload = importPCAP("peerPayload.pcap")
+        peerpayload.open('a')
         while 1:
-            dataReceivedFromPeer = socket.recv(4096)  # receive using socket
-            peerPayload = dataReceivedFromPeer
-            if peerPayload:
-                with open("peerPayload.pcap") as external:
-                    external.write(peerPayload)
+            peerPayloadLines= socket.recv(4096)  # receive using socket
+            if peerPayloadLines:
+                peerpayload.write(peerPayloadLines)
+                peerpayload.close()
                 return
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
