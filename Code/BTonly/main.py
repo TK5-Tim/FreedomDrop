@@ -19,6 +19,7 @@ payload = list()
 peerPayload = list()
 peerInventory = ""
 peerInventoryList = "inventoryPeer.txt"
+peerPayload = "peerPayload.pcap"
 
 
 #BEFORE we are connected
@@ -67,33 +68,37 @@ while not connectionEstablished:
 #WHILE we are connected
 #Here used to be 'Depracted Code Snippet #1'
 if isMaster == 1:
+    print("<creating local Inventory>")
     toPeerInventoryList = impexp.createInventory(log, inventory)
-    print("#1")
+    print("<sending Inventory to Peer>")
     impexp.sendInventory(toPeerInventoryList,slaveSocket)
-    print("#2")
+    print("<waiting to receive Inventory from Peer...>")
     fromPeerInventoryList = impexp.receivePeerInventory(slaveSocket)
-    print("#3")
+    print("<creating Payload for Peer>")
     impexp.createPayload(log, inventory, peerInventoryList)
-    print("#4")
+    print("<sending Payload to Peer")         
     impexp.sendPayload(slaveSocket)
-    print("#5")
+    print("<waiting to receive Payload form Peer...>")
     dataReceived = impexp.receivePeerPayload(slaveSocket)
-#TODO: process peer payload
+    print("<updating log and Inventory with received payload")
+    impexp.handlePayload(log, peerPayload, inventory) 
     print("<Your log database has been updated>")
 
 else:
+    print("<waiting to receive Inventory from Peer...>")
     fromPeerInventoryList = impexp.receivePeerInventory(masterSocket)
-    print("#1")
+    print("<creating local Inventory>")
     toPeerInventoryList = impexp.createInventory(log, inventory)
-    print("#2")
+    print("<sending Inventory to Peer>")
     impexp.sendInventory(toPeerInventoryList,masterSocket)
-    print("#3")
+    print("<waiting to receive Payload form Peer...>")
     dataReceived = impexp.receivePeerPayload(masterSocket)
-    print("#4")
+    print("<creating Payload for Peer>")
     toPeerPayload = impexp.createPayload(log, inventory, fromPeerInventoryList)
-    print("#5")
+    print("<sending Payload to Peer")
     impexp.sendPayload(masterSocket)
-#TODO: process peer payload
+    print("<updating log and Inventory with received payload")
+    impexp.handlePayload(log, peerPayload, inventory) 
     print("<Your log database has been updated>")
 
 if isMaster is True:

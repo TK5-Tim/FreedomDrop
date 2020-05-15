@@ -167,9 +167,9 @@ def receivePeerInventory(socket):
             receivedInventory = socket.recv(2048)
             peerInventory = receivedInventory.decode('utf-8')
             if peerInventory:
-                print(peerInventory)
                 with open("inventoryPeer.txt", "w") as external:
                     external.write(peerInventory)
+                    print("received Inventory from Peer")
                 return
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
@@ -253,6 +253,7 @@ def receivePeerPayload(socket):
             if peerPayloadLines:
                 peerpayload.write(peerPayloadLines)
                 peerpayload.close()
+                print("<received payload from peer>")
                 return
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
