@@ -230,10 +230,15 @@ def sendPayload(socket):
     # TODO: Implement and test
     try:
         payload = importPCAP("payload.pcap")
+        print("<read Data>")
         SendData = payload.read()
+        print("<read Data>")
+        i = 0
         while SendData:
             socket.send(SendData)
             SendData = payload.read()
+            print("%d" % i)
+            i += 1
         payload.close()
     except Exception as e:
         print("Error: %s" % e)
