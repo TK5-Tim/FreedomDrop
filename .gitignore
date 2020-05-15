@@ -7,6 +7,7 @@
 logtextfile.txt
 test.txt
 payload.pcap
+*.pcap
 ### macOS ###
 # General
 .DS_Store

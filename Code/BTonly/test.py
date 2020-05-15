@@ -1,3 +1,4 @@
 import impexp
+import lib.pcap as pcap
 
-impexp.createPayload('test.pcap','logtextfile.txt','logtextfile2.txt')
+pcap.dump("payload.pcap")
