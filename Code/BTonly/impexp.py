@@ -151,6 +151,7 @@ def sendInventory(inventory, socket):
         while SendData:
             socket.send(SendData.encode('utf-8'))
             SendData = file.read(512)
+        file.close()
     except Exception as e:
         print("Error: %s" % e)
 
@@ -229,9 +230,10 @@ def sendPayload(socket):
     # TODO: Implement and test
     try:
         payload = importPCAP("payload.pcap")
-        payload.open('r')
-        for w in payload:
-            socket.send(w)
+        SendData = payload.read()
+        while SendData:
+            socket.send(SendData)
+            SendData = payload.read()
         payload.close()
     except Exception as e:
         print("Error: %s" % e)
@@ -245,7 +247,7 @@ def receivePeerPayload(socket):
     # TODO: Implement and test
     try:
         peerpayload = importPCAP("peerPayload.pcap")
-        peerpayload.open('a')
+        peerpayload.open('w')
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
             if peerPayloadLines:
