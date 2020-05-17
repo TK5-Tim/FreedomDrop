@@ -248,14 +248,16 @@ def receivePeerPayload(socket):
     # TODO: Implement and test
     try:
         peerpayload = importPCAP("peerPayload.pcap")
-        peerpayload.open('a')
+        peerpayload.open('')
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
-            if peerPayloadLines:
-                peerpayload.write(peerPayloadLines)
+            if not peerPayloadLines:
                 peerpayload.close()
                 print("<received payload from peer>")
                 return
+            peerpayload.write(peerPayloadLines)
+
+        
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
