@@ -191,7 +191,6 @@ def createPayload(fname, inventoryint, inventoryext):
     seq_payload = compareInventory(inventoryint, inventoryext)
     if seq_payload == set():
         print('the payload is empty')
-        payload.write(b'e')
         return
     log.open('r')
     for w in log:
