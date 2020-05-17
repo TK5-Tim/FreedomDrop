@@ -251,6 +251,7 @@ def receivePeerPayload(socket):
         peerpayload.open('a')
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
+            print(peerPayloadLines)
             if not peerPayloadLines:
                 peerpayload.close()
                 print("<received payload from peer>")
