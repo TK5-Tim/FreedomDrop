@@ -230,13 +230,9 @@ def sendPayload(socket):
     try:
         payload = importPCAP("payload.pcap")
         payload.open('r')
-        print("<read Data>")
-        SendData = payload.read()
-        print("<read Data>")
         i = 0
-        while SendData:
-            socket.send(SendData)
-            SendData = payload.read()
+        for w in payload:
+            socket.send(w)
             print("%d" % i)
             i += 1
         payload.close()
@@ -252,7 +248,7 @@ def receivePeerPayload(socket):
     # TODO: Implement and test
     try:
         peerpayload = importPCAP("peerPayload.pcap")
-        peerpayload.open('w')
+        peerpayload.open('a')
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
             if peerPayloadLines:
