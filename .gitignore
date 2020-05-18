@@ -7,7 +7,7 @@
 logtextfile.txt
 test.txt
 payload.pcap
-*.pcap
+peerPayload.pcap
 ### macOS ###
 # General
 .DS_Store
