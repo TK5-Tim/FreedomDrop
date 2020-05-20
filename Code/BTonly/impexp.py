@@ -217,6 +217,9 @@ def handlePayload(fname, payload, inventoryDict):
     log.open('a')
     payload.open('r')
     for w in payload:
+        if w == 256:
+            log.close
+            return
         log.write(w)
     log.close()
 
@@ -231,6 +234,8 @@ def sendPayload(socket):
         payload.open('r')
         i = 0
         for w in payload:
+            if w is None:
+                w = 256;
             socket.send(w)
             print("%d" % i)
             i += 1
