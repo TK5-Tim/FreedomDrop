@@ -102,9 +102,9 @@ else:
     print("<Your log database has been updated>")
 
 if isMaster is True:
-    disconnect([masterSocket, slaveSocket])
+    connection.disconnect([masterSocket, slaveSocket])
 else:
-    disconnect(slaveSocket)
+    connection.disconnect(slaveSocket)
 print("<Program terminated>")
 
 
