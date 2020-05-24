@@ -9,7 +9,7 @@
 import cbor2
 import hashlib
 
-import event
+from . import event
 
 class PCAP:
 
