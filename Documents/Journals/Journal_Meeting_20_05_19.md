@@ -32,16 +32,16 @@ Tim Keller ([@TK5-Tim](https://github.com/TK5-Tim))
 		* Bemerkung: Demo als Eimerkette, zuerst USB-Stick, dann zweite Strecke mit BT überwinden. 
 			* Unklar: welche App zeigen?
 
-###TO-DO
-* PCAP Format kompatibel (Tschudin Mail)
-* Schnittstellen Gruppe 4 andocken
+### TO-DO
+- [ ] PCAP Format kompatibel (Tschudin Mail)
+- [ ] Schnittstellen Gruppe 4 andocken
 	* Funktionen ersetzen
-* Verarbeitung von mehreren Pcap Files
-* Anbindung Datenbank?
-* Koordination der Demo + ansprache mit den anderen Gruppen(1,4,7,13,14)
-* Anleitung für @tschudin, um das Problem zu reproduzieren
-* leere PCAP handeln
-* Disconnect clearly
+- [ ] Verarbeitung von mehreren Pcap Files
+- [ ] Anbindung Datenbank?
+- [ ] Koordination der Demo + ansprache mit den anderen Gruppen(1,4,7,13,14)
+- [ ] Anleitung für @tschudin, um das Problem zu reproduzieren
+- [ ] leere PCAP handeln
+- [ ] Disconnect clearly
 
 ### Agenda
 ##### Mai
