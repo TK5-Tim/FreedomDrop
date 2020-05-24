@@ -33,15 +33,15 @@ Tim Keller ([@TK5-Tim](https://github.com/TK5-Tim))
 			* Unklar: welche App zeigen?
 
 ### TO-DO
+- [x] Anleitung für @tschudin, um das Problem zu reproduzieren
+- [ ] leere PCAP handeln
 - [ ] PCAP Format kompatibel (Tschudin Mail)
+- [ ] Disconnect Funktion
+- [ ] Verarbeitung von mehreren Pcap Files
 - [ ] Schnittstellen Gruppe 4 andocken
 	* Funktionen ersetzen
-- [ ] Verarbeitung von mehreren Pcap Files
-- [ ] Anbindung Datenbank?
-- [ ] Koordination der Demo + ansprache mit den anderen Gruppen(1,4,7,13,14)
-- [ ] Anleitung für @tschudin, um das Problem zu reproduzieren
-- [ ] leere PCAP handeln
-- [ ] Disconnect clearly
+- [ ] Testen Demo / Demo aufsezten
+
 
 ### Agenda
 ##### Mai
