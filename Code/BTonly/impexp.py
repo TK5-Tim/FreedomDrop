@@ -184,14 +184,15 @@ def createPayload(fname, inventoryint, inventoryext):
     creates payload pcap file with the missing pcap files for the peer.
     """
     # how do we create the payload? As a clear text file just like we assume to store them locally?
-    log = importPCAP(fname)
-    payload = importPCAP('payload.pcap')
-    print('created payload file')
-    payload.open('w')
     seq_payload = compareInventory(inventoryint, inventoryext)
     if seq_payload == set():
         print('the payload is empty')
         return
+    
+    log = importPCAP(fname)
+    payload = importPCAP('payload.pcap')
+    print('created payload file')
+    payload.open('w')
     log.open('r')
     for w in log:
         e = cbor2.loads(w)
@@ -230,6 +231,12 @@ def sendPayload(socket):
     """
     # TODO: Implement and test
     try:
+        if not os.path.isfile("payload.pcap"):
+            socket.send(b"False")
+            return
+
+        # payload exists
+        socket.send(b"True")
         payload = importPCAP("payload.pcap")
         payload.open('r')
         i = 0
@@ -250,6 +257,12 @@ def receivePeerPayload(socket):
     """
     # Current code already deprecated
     # TODO: Implement and test
+    payloadInfo = socket.recv(4096)
+
+    if payloadInfo == b"False": 
+        print("<no payload expected. logs are up to date.>")
+        return
+
     try:
         peerpayload = importPCAP("peerPayload.pcap")
         peerpayload.open('a')
