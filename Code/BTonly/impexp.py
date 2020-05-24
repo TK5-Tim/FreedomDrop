@@ -261,7 +261,7 @@ def receivePeerPayload(socket):
 
     if payloadInfo == b"False": 
         print("<no payload expected. logs are up to date.>")
-        return
+        return 0
 
     try:
         peerpayload = importPCAP("peerPayload.pcap")
@@ -279,7 +279,7 @@ def receivePeerPayload(socket):
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
         print("Error #1: %s" % e)
-    return
+    return 1
 
 
 """

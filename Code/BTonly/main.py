@@ -79,9 +79,10 @@ if isMaster == 1:
     print("<sending Payload to Peer")         
     impexp.sendPayload(slaveSocket)
     print("<waiting to receive Payload form Peer...>")
-    impexp.receivePeerPayload(slaveSocket)
-    print("<updating log and Inventory with received payload")
-    impexp.handlePayload(log, peerPayload, inventory) 
+    payloadStatus = impexp.receivePeerPayload(slaveSocket)
+    if payloadStatus == 1:
+        print("<updating log and Inventory with received payload")
+        impexp.handlePayload(log, peerPayload, inventory) 
     print("<Your log database has been updated>")
 
 else:
@@ -92,13 +93,14 @@ else:
     print("<sending Inventory to Peer>")
     impexp.sendInventory(inventory, masterSocket)
     print("<waiting to receive Payload form Peer...>")
-    impexp.receivePeerPayload(masterSocket)
+    payloadStatus = impexp.receivePeerPayload(masterSocket)
     print("<creating Payload for Peer>")
     impexp.createPayload(log, inventory, peerInventoryList)
     print("<sending Payload to Peer")
     impexp.sendPayload(masterSocket)
-    print("<updating log and Inventory with received payload")
-    impexp.handlePayload(log, peerPayload, inventory) 
+    if payloadStatus == 1:
+        print("<updating log and Inventory with received payload")
+        impexp.handlePayload(log, peerPayload, inventory) 
     print("<Your log database has been updated>")
 
 if isMaster is True:
