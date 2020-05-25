@@ -29,7 +29,7 @@ import subprocess
 import difflib
 from pathlib import Path
 import os
-
+from lib import event
 
 def file_len(fname):
     """
@@ -97,13 +97,9 @@ def createInventory(fname, inventoryDict):
     inventory = open(inventoryDict, 'w+')
     inventory.write('inventory\n')
     for w in log:
-        e = cbor2.loads(w)
-        href = hashlib.sha256(e[0]).digest()
-        e[0] = cbor2.loads(e[0])
-        # rewrite the packet's byte arrays for pretty printing:
-        e[0] = pcap.base64ify(e[0])
-        fid = e[0][0]
-        seq = e[0][1]
+        e = event.EVENT()
+        e.from_wire(w)
+        seq = e.seq
         inventory.write("%d \n" % seq)
     log.close()
     inventory.close()
@@ -195,13 +191,9 @@ def createPayload(fname, inventoryint, inventoryext):
     payload.open('w')
     log.open('r')
     for w in log:
-        e = cbor2.loads(w)
-        href = hashlib.sha256(e[0]).digest()
-        e[0] = cbor2.loads(e[0])
-        # rewrite the packet's byte arrays for pretty printing:
-        e[0] = pcap.base64ify(e[0])
-        fid = e[0][0]
-        seq = e[0][1]
+        e = event.EVENT()
+        e.from_wire(w)
+        seq = e.seq
         print(seq)
         if seq in seq_payload:
             payload.write(w)
@@ -241,8 +233,6 @@ def sendPayload(socket):
         payload.open('r')
         i = 0
         for w in payload:
-            if w is None:
-                w = 256;
             socket.send(w)
             print("%d" % i)
             i += 1
