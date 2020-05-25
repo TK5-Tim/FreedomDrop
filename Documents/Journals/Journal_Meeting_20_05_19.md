@@ -36,7 +36,7 @@ Tim Keller ([@TK5-Tim](https://github.com/TK5-Tim))
 - [x] Anleitung für @tschudin, um das Problem zu reproduzieren
 - [x] Disconnect Funktion
 - [x] leere PCAP handeln
-- [ ] PCAP Format kompatibel (Tschudin Mail)
+- [x] PCAP Format kompatibel (Tschudin Mail)
 - [ ] Verarbeitung von mehreren Pcap Files
 - [ ] Schnittstellen Gruppe 4 andocken
 	* Funktionen ersetzen
