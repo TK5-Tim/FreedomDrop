@@ -212,6 +212,7 @@ def handlePayload(fname, payload, inventoryDict):
     for w in payload:
         log.write(w)
     log.close()
+    print("<wrote peerPayload to log>")
 
 
 def sendPayload(socket):
