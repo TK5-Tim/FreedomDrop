@@ -260,15 +260,13 @@ def receivePeerPayload(socket):
                  peerpayload.write(peerPayloadLines)
                  peerpayload.close()
                  print("<received payload from peer>")
-                 return
+                 return 1
 
         
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
         print("Error #1: %s" % e)
-    return 1
-
 
 """
     if dataReceivedFromPeer:
