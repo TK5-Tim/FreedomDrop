@@ -42,6 +42,15 @@ Journals of all meetings that took place:
 ### Presentations
 * [Status Präsentation 16.04.2020](Documents/Presentations/Status/Status_presentation.pptx)
 
+### TO-DO
+- [x] Anleitung für @tschudin, um das Problem zu reproduzieren
+- [x] Disconnect Funktion
+- [x] leere PCAP handeln
+- [x] PCAP Format kompatibel (Tschudin Mail)
+- [ ] Verarbeitung von mehreren Pcap Files
+- [ ] Schnittstellen Gruppe 4 andocken
+	* Funktionen ersetzen
+- [ ] Testen Demo / Demo aufsezten
 
 ## Ressources 
 All Ressources that might be Helpful for the project are stored in there. 
