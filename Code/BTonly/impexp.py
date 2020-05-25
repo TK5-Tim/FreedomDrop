@@ -210,9 +210,6 @@ def handlePayload(fname, payload, inventoryDict):
     log.open('a')
     payload.open('r')
     for w in payload:
-        if w == 256:
-            log.close
-            return
         log.write(w)
     log.close()
 
