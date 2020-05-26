@@ -17,6 +17,7 @@ log = "test.pcap"
 inventory = "logtextfile.txt"
 payload = list()
 peerPayload = list()
+
 peerInventory = ""
 peerInventoryList = "inventoryPeer.txt"
 peerPayload = "peerPayload.pcap"
@@ -82,7 +83,7 @@ if isMaster == 1:
     payloadStatus = impexp.receivePeerPayload(slaveSocket)
     if payloadStatus == 1:
         print("<updating log and Inventory with received payload")
-        impexp.handlePayload(log, peerPayload, inventory) 
+        impexp.handlePayload(log, inventory) 
     print("<Your log database has been updated>")
 
 else:
@@ -100,7 +101,7 @@ else:
     impexp.sendPayload(masterSocket)
     if payloadStatus == 1:
         print("<updating log and Inventory with received payload")
-        impexp.handlePayload(log, peerPayload, inventory) 
+        impexp.handlePayload(log, inventory) 
     print("<Your log database has been updated>")
 
 if isMaster is True:

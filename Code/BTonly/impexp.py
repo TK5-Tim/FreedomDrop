@@ -31,6 +31,9 @@ from pathlib import Path
 import os
 from lib import event
 
+payloadDir = "payload"
+peerPayloadDir = "peerPayload"
+
 def file_len(fname):
     """
     Function from Stack Overflow
@@ -186,7 +189,7 @@ def createPayload(fname, inventoryint, inventoryext):
         return
     
     log = importPCAP(fname)
-    payload = importPCAP('payload.pcap')
+    payload = importPCAP('payload/payload.pcap')
     print('created payload file')
     payload.open('w')
     log.open('r')
@@ -201,12 +204,12 @@ def createPayload(fname, inventoryint, inventoryext):
     log.close()
 
 
-def handlePayload(fname, payload, inventoryDict):
+def handlePayload(fname, inventoryDict):
     """
     takes the Payload of the peer specified for the local log and writes
     """
     log = importPCAP(fname)
-    payload = importPCAP(payload)
+    payload = importPCAP("peerPayload/peerPayload.pcap")
     log.open('a')
     payload.open('r')
     for w in payload:
@@ -221,13 +224,13 @@ def sendPayload(socket):
     """
     # TODO: Implement and test
     try:
-        if not os.path.isfile("payload.pcap"):
+        if not os.path.isfile("payload/payload.pcap"):
             socket.send(b"False")
             return
 
         # payload exists
         socket.send(b"True")
-        payload = importPCAP("payload.pcap")
+        payload = importPCAP("payload/payload.pcap")
         payload.open('r')
         i = 0
         for w in payload:
@@ -252,7 +255,7 @@ def receivePeerPayload(socket):
         return 0
 
     try:
-        peerpayload = importPCAP("peerPayload.pcap")
+        peerpayload = importPCAP("peeerPayload/peerPayload.pcap")
         peerpayload.open('a')
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
