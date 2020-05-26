@@ -228,11 +228,12 @@ def sendPayload(socket):
     try:
         if not os.listdir("payload"):
             socket.send(b"False")
+            print("<no payload to sent>")
             return
 
         # payload exists
         socket.send(b"True")
-        for file in os.listdir("peerPayload"):
+        for file in os.listdir("payload"):
             payload = importPCAP("payload/" + file)
             payload.open('r')
             i = 0
