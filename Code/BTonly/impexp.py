@@ -195,7 +195,7 @@ def createPayload(fname, inventoryint, inventoryext):
         e = event.EVENT()
         e.from_wire(w)
         seq = e.seq
-        payload = importPCAP('payload/'+seq+'.pcap')
+        payload = importPCAP('payload/'+ str(seq) +'.pcap')
         payload.open('w')
         print(seq)
         if seq in seq_payload:
@@ -210,7 +210,7 @@ def handlePayload(fname, inventoryDict):
     """
     log = importPCAP(fname)
     log.open('a')
-    for file in os.listdir(peerPayloadDir):
+    for file in os.listdir("peerPayload"):
         payload = importPCAP("peerPayload/" + file)
         payload.open('r')
         for w in payload:
@@ -232,7 +232,7 @@ def sendPayload(socket):
 
         # payload exists
         socket.send(b"True")
-        for file in os.listdir("peerPayloadDir"):
+        for file in os.listdir("peerPayload"):
             payload = importPCAP("payload/" + file)
             payload.open('r')
             i = 0
@@ -267,7 +267,7 @@ def receivePeerPayload(socket):
                 e = event.EVENT()
                 e.from_wire(peerPayloadLines)
                 seq = e.seq
-                peerpayload = importPCAP('peerPayload/'+ seq +'.pcap')
+                peerpayload = importPCAP('peerPayload/'+ str(seq) +'.pcap')
                 peerpayload.open('a')
                 peerpayload.write(peerPayloadLines)
                 peerpayload.close()
