@@ -293,9 +293,9 @@ def receivePeerPayload(socket):
 
 def cleanUpPayloads():
     for file in os.listdir("peerPayload"):
-        os.remove(file)
+        os.remove("peerPayload" + file)
     for file in os.listdir("payload"):
-        os.remove(file)
+        os.remove("payload" + file)
     
 
 def sendOk():

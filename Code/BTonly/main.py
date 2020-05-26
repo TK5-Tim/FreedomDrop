@@ -85,6 +85,9 @@ if isMaster == 1:
         print("<updating log and Inventory with received payload")
         impexp.handlePayload(log, inventory) 
     print("<Your log database has been updated>")
+    impexp.cleanUpPayloads()    
+    print("<Cleaned up payload files>")
+
 
 else:
     print("<waiting to receive Inventory from Peer...>")
@@ -104,7 +107,7 @@ else:
         impexp.handlePayload(log, inventory) 
     print("<Your log database has been updated>")
     impexp.cleanUpPayloads()    
-    print("<Cleaning up payload files>")
+    print("<Cleaned up payload files>")
 
 
 if isMaster is True:
