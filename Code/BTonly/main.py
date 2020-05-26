@@ -97,12 +97,15 @@ else:
     payloadStatus = impexp.receivePeerPayload(masterSocket)
     print("<creating Payload for Peer>")
     impexp.createPayload(log, inventory, peerInventoryList)
-    print("<sending Payload to Peer")
+    print("<sending Payload to Peer>")
     impexp.sendPayload(masterSocket)
     if payloadStatus == 1:
         print("<updating log and Inventory with received payload")
         impexp.handlePayload(log, inventory) 
     print("<Your log database has been updated>")
+    impexp.cleanUpPayloads()    
+    print("<Cleaning up payload files>")
+
 
 if isMaster is True:
     connection.disconnect([masterSocket, slaveSocket])

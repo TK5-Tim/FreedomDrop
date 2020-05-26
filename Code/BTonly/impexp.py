@@ -291,6 +291,12 @@ def receivePeerPayload(socket):
         return(False,"")
 """
 
+def cleanUpPayloads():
+    for file in os.listdir("peerPayload"):
+        os.remove(file)
+    for file in os.listdir("payload"):
+        os.remove(file)
+    
 
 def sendOk():
     pass
