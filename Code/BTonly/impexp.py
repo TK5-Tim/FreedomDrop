@@ -189,18 +189,18 @@ def createPayload(fname, inventoryint, inventoryext):
         return
     
     log = importPCAP(fname)
-    payload = importPCAP('payload/payload.pcap')
     print('created payload file')
-    payload.open('w')
     log.open('r')
     for w in log:
         e = event.EVENT()
         e.from_wire(w)
         seq = e.seq
+        payload = importPCAP('payload/'+seq+'.pcap')
+        payload.open('w')
         print(seq)
         if seq in seq_payload:
             payload.write(w)
-    payload.close()
+        payload.close()
     log.close()
 
 
@@ -209,11 +209,13 @@ def handlePayload(fname, inventoryDict):
     takes the Payload of the peer specified for the local log and writes
     """
     log = importPCAP(fname)
-    payload = importPCAP("peerPayload/peerPayload.pcap")
     log.open('a')
-    payload.open('r')
-    for w in payload:
-        log.write(w)
+    for file in os.listdir(peerPayloadDir):
+        payload = importPCAP("peerPayload/" + file)
+        payload.open('r')
+        for w in payload:
+            log.write(w)
+        payload.close()
     log.close()
     print("<wrote peerPayload to log>")
 
@@ -224,20 +226,22 @@ def sendPayload(socket):
     """
     # TODO: Implement and test
     try:
-        if not os.path.isfile("payload/payload.pcap"):
+        if not os.listdir("payload"):
             socket.send(b"False")
             return
 
         # payload exists
         socket.send(b"True")
-        payload = importPCAP("payload/payload.pcap")
-        payload.open('r')
-        i = 0
-        for w in payload:
-            socket.send(w)
-            print("%d" % i)
-            i += 1
-        payload.close()
+        for file in os.listdir("peerPayloadDir"):
+            payload = importPCAP("payload/" + file)
+            payload.open('r')
+            i = 0
+            for w in payload:
+                socket.send(w)
+                print("%d" % i)
+                i += 1
+            payload.close()
+        socket.send(b"fin")
     except Exception as e:
         print("Error: %s" % e)
 
@@ -255,15 +259,19 @@ def receivePeerPayload(socket):
         return 0
 
     try:
-        peerpayload = importPCAP('peerPayload/peerPayload.pcap')
-        peerpayload.open('a')
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
             if peerPayloadLines:
-                 peerpayload.write(peerPayloadLines)
-                 peerpayload.close()
-                 print("<received payload from peer>")
-                 return 1
+                if peerPayloadLines == b"fin":
+                    return 1
+                e = event.EVENT()
+                e.from_wire(peerPayloadLines)
+                seq = e.seq
+                peerpayload = importPCAP('peerPayload/'+ seq +'.pcap')
+                peerpayload.open('a')
+                peerpayload.write(peerPayloadLines)
+                peerpayload.close()
+                print("<received payload from peer>")
 
         
     except BluetoothError:
