@@ -255,7 +255,7 @@ def receivePeerPayload(socket):
         return 0
 
     try:
-        peerpayload = importPCAP("peerPayload/peerPayload.pcap")
+        peerpayload = importPCAP('peerPayload/peerPayload.pcap')
         peerpayload.open('a')
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
