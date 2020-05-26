@@ -200,7 +200,7 @@ def createPayload(fname, inventoryint, inventoryext):
             payload = importPCAP('payload/'+ str(seq) +'.pcap')
             payload.open('w')
             payload.write(w)
-        payload.close()
+            payload.close()
     log.close()
 
 
