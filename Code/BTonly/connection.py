@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Connection Module
 
 This module contains the function definitions used for

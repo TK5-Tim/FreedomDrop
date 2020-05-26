@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Main Program Loop
 
 This module contains the program logic for FreedomDrop
