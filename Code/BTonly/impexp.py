@@ -195,10 +195,10 @@ def createPayload(fname, inventoryint, inventoryext):
         e = event.EVENT()
         e.from_wire(w)
         seq = e.seq
-        payload = importPCAP('payload/'+ str(seq) +'.pcap')
-        payload.open('w')
         print(seq)
         if seq in seq_payload:
+            payload = importPCAP('payload/'+ str(seq) +'.pcap')
+            payload.open('w')
             payload.write(w)
         payload.close()
     log.close()
