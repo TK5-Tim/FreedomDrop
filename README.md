@@ -47,7 +47,7 @@ Journals of all meetings that took place:
 - [x] Disconnect Funktion
 - [x] leere PCAP handeln
 - [x] PCAP Format kompatibel (Tschudin Mail)
-- [ ] Verarbeitung von mehreren Pcap Files
+- [x] Verarbeitung von mehreren Pcap Files
 - [ ] Schnittstellen Gruppe 4 andocken
 	* Funktionen ersetzen
 - [ ] Testen Demo / Demo aufsezten
