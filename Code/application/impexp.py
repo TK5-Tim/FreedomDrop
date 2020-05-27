@@ -100,6 +100,7 @@ def createInventory():
     inventroryDict - txt where the inventory should be stored in
     """
     status_dictionary = lm.get_database_status()
+    print(status_dictionary)
     return status_dictionary
 
 def compareInventory(inventoryint, inventoryext):
