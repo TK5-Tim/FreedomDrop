@@ -1,3 +1,9 @@
 import impexp
 
-impexp.createInventory()
+bruh = {}
+inventory = impexp.createInventory()
+print(inventory)
+
+impexp.createPayload(inventory,bruh)
+
+

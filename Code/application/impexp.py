@@ -23,14 +23,12 @@ moved to a more appropriate module
 into Python objects which can then be parsed and handled easier (i.e. JSON objects)
 """
 from bluetooth import *
-import lib.Tschudin.pcap as pcap
 import cbor2
 import hashlib
 import subprocess
 import difflib
 from pathlib import Path
 import os
-from lib.Tschudin import event
 from logMerge import LogMerge
 from logMerge.PCAP import PCAP
 
@@ -38,59 +36,6 @@ payloadDir = "payload"
 peerPayloadDir = "peerPayload"
 lm = LogMerge.LogMerge()
 
-
-def file_len(fname):
-    """
-    Function from Stack Overflow
-    Simply returns the amount of lines in the given file fname
-    It is possible that the file has to be a .txt
-    """
-    p = subprocess.Popen(['wc', '-l', fname], stdout=subprocess.PIPE,
-                         stderr=subprocess.PIPE)
-    result, err = p.communicate()
-    if p.returncode != 0:
-        raise IOError(err)
-    return int(result.strip().split()[0])
-
-
-def filesize(fname):
-    """
-    Simply returns the size of the file fname in bytes
-    """
-    return (Path(fname).stat().st_size)
-
-
-def importPCAP(fname):
-    """
-    Imports the pcap file in the specific format specified int the pcap.PCAP function from the demo files of Professor Tschudin.
-    """
-    log = pcap.PCAP(fname)
-    return log
-
-
-def importInventory(fname):
-    """
-    Imports a specifed txt-file.
-    """
-    inventory = open(fname)
-    return inventory
-
-
-'''
-def createEntry(rawEntry):
-    #return(entryTuple)
-    pass
-
-def processEntry(formattedEntry):
-    """
-    Please comment
-    """
-    try:
-      if formattedEntry.seq_num == inventory[str(formattedEntry.feed_id)]:
-          pass
-    except KeyError:
-      inventory[str(formattedEntry.feed_id)].append(formattedEntry)
-'''
 
 
 def createInventory():
@@ -105,6 +50,7 @@ def createInventory():
         return status_dictionary
     except Exception as e: 
         print("Error: %s" % e)
+
 def compareInventory(inventoryint, inventoryext):
     """
     Compares two txt-files who are intended as inventories of pcap files that log the different messages.
@@ -243,27 +189,9 @@ def receivePeerPayload(socket):
     except Exception as e:
         print("Error #1: %s" % e)
 
-"""
-    if dataReceivedFromPeer:
-        for entry in dataReceivedFromPeer:
-            formattedEntry = createEntry(entry)
-            processEntry(formattedEntry)
-        peerPayload = "???"
-        return(True,peerPayload)
-    else:
-        return(False,"")
-"""
-
 def cleanUpPayloads():
     for file in os.listdir("peerPayload"):
         os.remove("peerPayload/" + file)
     for file in os.listdir("payload"):
         os.remove("payload/" + file)
     
-
-def sendOk():
-    pass
-
-
-def terminate():
-    pass
