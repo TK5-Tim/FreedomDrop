@@ -1,19 +1,21 @@
-"""
+
 from logMerge.PCAP import PCAP
 import os
 
-for file in os.listdir("payload"):
-    print(file[:-5])
-
-"""
-"""
 try:
-    print("eigene DB")
-    packets_list = PCAP.read_pcap("payload/6b1349f67abde08e88bb9051d23561c806f0b581aed923fab97268e6db94e6a7_v.pcap")
-    PCAP.write_pcap("tester", packets_list)
+    print("payload")
+    for file in os.listdir("payload"):
+        packets_list = PCAP.read_pcap("payload/" + file)
+        print(packets_list)
+    print("peer payload")
+    for file in os.listdir("peerPayload"):
+        packets_list = PCAP.read_pcap("peerPayload/" + file)
+        print(packets_list)
+
+        
 except Exception as e: 
     print(e)
-"""
+
 
 """
 inventoryext = {"eins" : 1}
@@ -30,8 +32,9 @@ print(diff1)
 diff.update(diff1)
 print(diff)
 """
-
+"""
 test = bytearray(b'k\x13I\xf6z\xbd\xe0\x8e\x88\xbb\x90Q\xd25a\xc8\x06\xf0\xb5\x81\xae\xd9#\xfa\xb9rh\xe6\xdb\x94\xe6\xa7')
 print(test)
 test2 = bytes(test)
 print(test2)
+"""
