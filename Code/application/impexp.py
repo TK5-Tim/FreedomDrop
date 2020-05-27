@@ -154,7 +154,7 @@ def sendPayload(socket):
         socket.send(b"True")
         for file in os.listdir("payload"):
             socket.send(file.encode('utf-8'))
-            packets_list = PCAP.read_pcap(file)
+            packets_list = PCAP.read_pcap("payload/" + file)
             for packet in packets_list:
                 socket.send(packet)
             socket.send(b'EOF')
