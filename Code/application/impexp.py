@@ -183,6 +183,7 @@ def receivePeerPayload(socket):
         print(peerPayloadLines)
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
+            print(peerPayloadLines)
             if peerPayloadLines:
                 if peerPayloadLines == b"EOF":
                     PCAP.write_pcap("peerPayload/" + filename, packets_list)
