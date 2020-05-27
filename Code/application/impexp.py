@@ -125,7 +125,7 @@ def sendInventory(inventory, socket):
             socket.send(key)
         socket.send(b'finkeys')
         for val in inventory_vals:
-            socket.send(int.to_bytes(key, 1, "little"))
+            socket.send(int.to_bytes(val, 1, "little"))
         socket.send(b'finvals')
     except Exception as e:
         print("Error: %s" % e)
