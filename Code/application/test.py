@@ -1,0 +1,3 @@
+import impexp
+
+impexp.createInventory()

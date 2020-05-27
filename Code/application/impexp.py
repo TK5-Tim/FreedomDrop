@@ -23,17 +23,20 @@ moved to a more appropriate module
 into Python objects which can then be parsed and handled easier (i.e. JSON objects)
 """
 from bluetooth import *
-import lib.pcap as pcap
+import lib.Tschudin.pcap as pcap
 import cbor2
 import hashlib
 import subprocess
 import difflib
 from pathlib import Path
 import os
-from lib import event
+from lib.Tschudin import event
+from lib import LogMerge
 
 payloadDir = "payload"
 peerPayloadDir = "peerPayload"
+lm = LogMerge.LogMerge()
+
 
 def file_len(fname):
     """
@@ -89,31 +92,22 @@ def processEntry(formattedEntry):
 '''
 
 
-def createInventory(fname, inventoryDict):
+def createInventory():
     """
     writes the Inventory of all logs that are stored in a pcap file (fname) to the givent inventory file as txt.
     fname - pcap file
     inventroryDict - txt where the inventory should be stored in
-    TODO: work with hashes of log.
+    TODO: Dictionoaries erstellen für LogMerge mit Mehtode get_database status()
     """
-    log = importPCAP(fname)
-    log.open('r')
-    inventory = open(inventoryDict, 'w+')
-    inventory.write('inventory\n')
-    for w in log:
-        e = event.EVENT()
-        e.from_wire(w)
-        seq = e.seq
-        inventory.write("%d \n" % seq)
-    log.close()
-    inventory.close()
+    status_dictionary = lm.get_database_status()
+    print(list(status_dictionary.values()))
 
 
 def compareInventory(inventoryint, inventoryext):
     """
     Compares two txt-files who are intended as inventories of pcap files that log the different messages.
     At the moment it only compares the indexes
-    TODO: work with hashes of log.
+    TODO: Testing. Möglicherweise kleine Anpassungen LogMerge Connect
     """
     seq_external = set()
     seq_internal = set()
@@ -144,7 +138,7 @@ def sendInventory(inventory, socket):
     """
 
     """
-    # TODO: This code has not yet been tested
+    # TODO: MÖglichereweise Anpassen Logmerge
     try:
         file = open(inventory)
         SendData = file.read(512)
@@ -183,7 +177,7 @@ def createPayload(fname, inventoryint, inventoryext):
     """
     creates payload pcap file with the missing pcap files for the peer.
     """
-    # how do we create the payload? As a clear text file just like we assume to store them locally?
+    # TODO: Anbindung LogMerge Methode export_logs
     seq_payload = compareInventory(inventoryint, inventoryext)
     if seq_payload == set():
         print('the payload is empty')
@@ -209,6 +203,7 @@ def handlePayload(fname, inventoryDict):
     """
     takes the Payload of the peer specified for the local log and writes
     """
+    # TODO: Anbindung Log Merge mit import_logs()
     log = importPCAP(fname)
     log.open('a')
     for file in os.listdir("peerPayload"):
