@@ -1,9 +1,7 @@
 import impexp
-
-bruh = {}
-inventory = impexp.createInventory()
-print(inventory)
-
-impexp.createPayload(inventory,bruh)
-
-
+inventory_ext = {b'\xb1\xbc\x9d\x8f\x8f\xc3\xf0\xa1IPV\x8f\x9f\xd32\xb3\xce\xe9IW\x8a\xde93U\xb2\xcb\xbcuP"\x19': 2}
+inventory_int = {b'k\x13I\xf6z\xbd\xe0\x8e\x88\xbb\x90Q\xd25a\xc8\x06\xf0\xb5\x81\xae\xd9#\xfa\xb9rh\xe6\xdb\x94\xe6\xa7': 2}
+print(inventory_ext)
+print(inventory_int)
+diff = impexp.compareInventory(inventory_ext,inventory_int)
+print(diff)

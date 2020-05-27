@@ -110,6 +110,7 @@ def receivePeerInventory(socket):
         print("Error: %s" % e)
     
     peerInventory = dict(zip(peer_key, peer_vals))
+    print(peerInventory)
 
     return peerInventory
 
