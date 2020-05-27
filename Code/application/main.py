@@ -15,12 +15,8 @@ connectionEstablished = False
 dataReceived = False
 okReceived = False
 log = "test.pcap"
-inventory = "logtextfile.txt"
 payload = list()
 peerPayload = list()
-
-peerInventory = ""
-peerInventoryList = "inventoryPeer.txt"
 peerPayload = "peerPayload.pcap"
 
 
@@ -71,20 +67,20 @@ while not connectionEstablished:
 #Here used to be 'Depracted Code Snippet #1'
 if isMaster == 1:
     print("<creating local Inventory>")
-    impexp.createInventory(log, inventory)
+    inventory = impexp.createInventory(log, inventory)
     print("<sending Inventory to Peer>")
     impexp.sendInventory(inventory,slaveSocket)
     print("<waiting to receive Inventory from Peer...>")
-    impexp.receivePeerInventory(slaveSocket)
+    peerInventory = impexp.receivePeerInventory(slaveSocket)
     print("<creating Payload for Peer>")
-    impexp.createPayload(log, inventory, peerInventoryList)
+    impexp.createPayload(log, inventory, peerInventory)
     print("<sending Payload to Peer")         
     impexp.sendPayload(slaveSocket)
     print("<waiting to receive Payload form Peer...>")
     payloadStatus = impexp.receivePeerPayload(slaveSocket)
     if payloadStatus == 1:
         print("<updating log and Inventory with received payload")
-        impexp.handlePayload(log, inventory) 
+        impexp.handlePayload() 
     print("<Your log database has been updated>")
     impexp.cleanUpPayloads()    
     print("<Cleaned up payload files>")
@@ -92,20 +88,20 @@ if isMaster == 1:
 
 else:
     print("<waiting to receive Inventory from Peer...>")
-    impexp.receivePeerInventory(masterSocket)
+    peerInventory = impexp.receivePeerInventory(masterSocket)
     print("<creating local Inventory>")
-    impexp.createInventory(log, inventory)
+    inventory = impexp.createInventory()
     print("<sending Inventory to Peer>")
     impexp.sendInventory(inventory, masterSocket)
     print("<waiting to receive Payload form Peer...>")
     payloadStatus = impexp.receivePeerPayload(masterSocket)
     print("<creating Payload for Peer>")
-    impexp.createPayload(log, inventory, peerInventoryList)
+    impexp.createPayload(inventory, peerInventory)
     print("<sending Payload to Peer>")
     impexp.sendPayload(masterSocket)
     if payloadStatus == 1:
         print("<updating log and Inventory with received payload")
-        impexp.handlePayload(log, inventory) 
+        impexp.handlePayload() 
     print("<Your log database has been updated>")
     impexp.cleanUpPayloads()    
     print("<Cleaned up payload files>")

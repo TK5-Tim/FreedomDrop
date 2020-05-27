@@ -31,7 +31,8 @@ import difflib
 from pathlib import Path
 import os
 from lib.Tschudin import event
-from lib import LogMerge
+from logMerge import LogMerge
+from logMerge.PCAP import PCAP
 
 payloadDir = "payload"
 peerPayloadDir = "peerPayload"
@@ -97,11 +98,9 @@ def createInventory():
     writes the Inventory of all logs that are stored in a pcap file (fname) to the givent inventory file as txt.
     fname - pcap file
     inventroryDict - txt where the inventory should be stored in
-    TODO: Dictionoaries erstellen für LogMerge mit Mehtode get_database status()
     """
     status_dictionary = lm.get_database_status()
-    print(list(status_dictionary.values()))
-
+    return status_dictionary
 
 def compareInventory(inventoryint, inventoryext):
     """
@@ -109,30 +108,10 @@ def compareInventory(inventoryint, inventoryext):
     At the moment it only compares the indexes
     TODO: Testing. Möglicherweise kleine Anpassungen LogMerge Connect
     """
-    seq_external = set()
-    seq_internal = set()
-    with open(inventoryint) as internal:
-        for line in internal:
-            seq = line.rstrip('\n')
-            if seq == "inventory":
-                continue
-            seq_internal.add(int(seq))
-
-    with open(inventoryext) as external:
-        for line in external:
-            seq = line.rstrip('\n')
-            if seq == "inventory":
-                continue
-            seq_external.add(int(seq))
-    print(seq_external)
-    print(seq_internal)
-    if seq_internal != seq_external:
-        seq_diff = seq_internal - seq_external
-        return seq_diff
-    else:
-        print("both logs are up to date!")
-        return set()
-
+    diff = {k: -1 for k in inventoryint if k not in inventoryext}
+    diff_seq = {k: inventoryext[k] for k in inventoryint if k in inventoryext and inventoryext[k] < inventoryint[k]}
+    diff.update(diff_seq)
+    return diff
 
 def sendInventory(inventory, socket):
     """
@@ -140,12 +119,14 @@ def sendInventory(inventory, socket):
     """
     # TODO: MÖglichereweise Anpassen Logmerge
     try:
-        file = open(inventory)
-        SendData = file.read(512)
-        while SendData:
-            socket.send(SendData.encode('utf-8'))
-            SendData = file.read(512)
-        file.close()
+        inventory_keys = inventory.keys()
+        inventory_vals = inventory.values()
+        for key in inventory_keys:
+            socket.send(key)
+        socket.send(b'finkeys')
+        for val in inventory_vals:
+            socket.send(int.to_bytes(key, 1, "little"))
+        socket.send(b'finvals')
     except Exception as e:
         print("Error: %s" % e)
 
@@ -157,63 +138,49 @@ def receivePeerInventory(socket):
     """
     Please comment
     """
+    peer_key = list()
+    peer_vals = list()
     try:
+        keys = True
         while 1:
             receivedInventory = socket.recv(2048)
-            peerInventory = receivedInventory.decode('utf-8')
-            if peerInventory:
-                with open("inventoryPeer.txt", "w") as external:
-                    external.write(peerInventory)
-                    print("<received Inventory from Peer>")
+            if receivedInventory == b'finkeys':
+                keys = False
+            
+            if receivedInventory == b'finvals':
                 return
+
+            if keys:
+                peer_key.append(receivedInventory)
+            else:
+                peer_vals.append(int.from_bytes(receivedInventory, byteorder= "little"))
+    
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
         print("Error: %s" % e)
-    return
+    
+    peerInventory = dict(zip(peer_key, peer_vals))
+
+    return peerInventory
 
 
-def createPayload(fname, inventoryint, inventoryext):
+def createPayload(inventoryint, inventoryext):
     """
     creates payload pcap file with the missing pcap files for the peer.
     """
     # TODO: Anbindung LogMerge Methode export_logs
-    seq_payload = compareInventory(inventoryint, inventoryext)
-    if seq_payload == set():
-        print('the payload is empty')
-        return
-    
-    log = importPCAP(fname)
-    print('created payload file')
-    log.open('r')
-    for w in log:
-        e = event.EVENT()
-        e.from_wire(w)
-        seq = e.seq
-        print(seq)
-        if seq in seq_payload:
-            payload = importPCAP('payload/'+ str(seq) +'.pcap')
-            payload.open('w')
-            payload.write(w)
-            payload.close()
-    log.close()
+    diff = compareInventory(inventoryint, inventoryext)
+    lm.export_logs("payload", diff)
 
 
-def handlePayload(fname, inventoryDict):
+def handlePayload():
     """
     takes the Payload of the peer specified for the local log and writes
     """
-    # TODO: Anbindung Log Merge mit import_logs()
-    log = importPCAP(fname)
-    log.open('a')
-    for file in os.listdir("peerPayload"):
-        payload = importPCAP("peerPayload/" + file)
-        payload.open('r')
-        for w in payload:
-            log.write(w)
-        payload.close()
-    log.close()
+    lm.import_logs(peerPayloadDir)
     print("<wrote peerPayload to log>")
+
 
 
 def sendPayload(socket):
@@ -230,14 +197,11 @@ def sendPayload(socket):
         # payload exists
         socket.send(b"True")
         for file in os.listdir("payload"):
-            payload = importPCAP("payload/" + file)
-            payload.open('r')
-            i = 0
-            for w in payload:
-                socket.send(w)
-                print("%d" % i)
-                i += 1
-            payload.close()
+            socket.send(file.encode('utf-8'))
+            packets_list = PCAP.read_pcap(file)
+            for packet in packets_list:
+                socket.send(packet)
+            socket.send(b'EOF')
         socket.send(b"fin")
     except Exception as e:
         print("Error: %s" % e)
@@ -255,21 +219,21 @@ def receivePeerPayload(socket):
         print("<no payload expected. logs are up to date.>")
         return 0
 
+    packets_list = list()
+    
     try:
+        peerPayloadLines = socket.recv(4096)
+        filename = peerPayloadLines.decode('utf-8')
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
             if peerPayloadLines:
+                if peerPayloadLines == b"EOF":
+                    PCAP.write_pcap("peerPayload/" + filename, packets_list)
+                    packets_list.clear()
+                    filename = peerPayloadLines.decode('utf-8')
                 if peerPayloadLines == b"fin":
                     return 1
-                e = event.EVENT()
-                e.from_wire(peerPayloadLines)
-                seq = e.seq
-                peerpayload = importPCAP('peerPayload/'+ str(seq) +'.pcap')
-                peerpayload.open('a')
-                peerpayload.write(peerPayloadLines)
-                peerpayload.close()
-                print("<received payload from peer>")
-
+                packets_list.append(peerPayloadLines)
         
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
