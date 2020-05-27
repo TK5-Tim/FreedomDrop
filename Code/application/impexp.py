@@ -180,6 +180,7 @@ def receivePeerPayload(socket):
     try:
         peerPayloadLines = socket.recv(512)
         filename = peerPayloadLines.decode('utf-8')
+        print(peerPayloadLines)
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
             if peerPayloadLines:
@@ -187,6 +188,7 @@ def receivePeerPayload(socket):
                     PCAP.write_pcap("peerPayload/" + filename, packets_list)
                     packets_list.clear()
                     filename = peerPayloadLines.decode('utf-8')
+                    print(peerPayloadLines)
                     continue
                 if peerPayloadLines == b"fin":
                     return 1

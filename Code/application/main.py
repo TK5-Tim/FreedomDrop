@@ -82,8 +82,8 @@ if isMaster == 1:
         print("<updating log and Inventory with received payload")
         impexp.handlePayload() 
     print("<Your log database has been updated>")
-    impexp.cleanUpPayloads()    
-    print("<Cleaned up payload files>")
+    #impexp.cleanUpPayloads()    
+    #print("<Cleaned up payload files>")
 
 
 else:
@@ -103,8 +103,8 @@ else:
         print("<updating log and Inventory with received payload")
         impexp.handlePayload() 
     print("<Your log database has been updated>")
-    impexp.cleanUpPayloads()    
-    print("<Cleaned up payload files>")
+    #impexp.cleanUpPayloads()    
+    #print("<Cleaned up payload files>")
 
 
 if isMaster is True:
