@@ -99,10 +99,12 @@ def createInventory():
     fname - pcap file
     inventroryDict - txt where the inventory should be stored in
     """
-    status_dictionary = lm.get_database_status()
-    print(status_dictionary)
-    return status_dictionary
-
+    try:
+        status_dictionary = lm.get_database_status()
+        print(status_dictionary)
+        return status_dictionary
+    except Exception as e: 
+        print("Error: %s" % e)
 def compareInventory(inventoryint, inventoryext):
     """
     Compares two txt-files who are intended as inventories of pcap files that log the different messages.
