@@ -67,13 +67,13 @@ while not connectionEstablished:
 #Here used to be 'Depracted Code Snippet #1'
 if isMaster == 1:
     print("<creating local Inventory>")
-    inventory = impexp.createInventory(log, inventory)
+    inventory = impexp.createInventory()
     print("<sending Inventory to Peer>")
     impexp.sendInventory(inventory,slaveSocket)
     print("<waiting to receive Inventory from Peer...>")
     peerInventory = impexp.receivePeerInventory(slaveSocket)
     print("<creating Payload for Peer>")
-    impexp.createPayload(log, inventory, peerInventory)
+    impexp.createPayload(inventory, peerInventory)
     print("<sending Payload to Peer")         
     impexp.sendPayload(slaveSocket)
     print("<waiting to receive Payload form Peer...>")
