@@ -105,9 +105,11 @@ def receivePeerInventory(socket):
                 peer_key.append(receivedInventory)
             else:
                 peer_vals.append(int.from_bytes(receivedInventory, byteorder= "little"))
-        
+        print(peer_key)
+        print(peer_vals)
         peerInventory = dict(zip(peer_key, peer_vals))
         print(peerInventory)
+        return peerInventory
 
     
     except BluetoothError:
@@ -116,8 +118,7 @@ def receivePeerInventory(socket):
         print("Error: %s" % e)
     
     
-    return peerInventory
-
+    
 
 def createPayload(inventoryint, inventoryext):
     """
