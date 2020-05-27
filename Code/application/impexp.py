@@ -96,13 +96,14 @@ def receivePeerInventory(socket):
             print(receivedInventory)
             if receivedInventory == b'finkeys':
                 keys = False
+                continue
 
             
             if receivedInventory == b'finvals':
                 break
 
             if keys:
-                peer_key.append(receivedInventory)
+                peer_key.append(bytes(receivedInventory))
             else:
                 peer_vals.append(int.from_bytes(receivedInventory, byteorder= "little"))
         print(peer_key)

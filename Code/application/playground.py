@@ -1,10 +1,11 @@
+"""
 from logMerge.PCAP import PCAP
 import os
 
 for file in os.listdir("payload"):
     print(file[:-5])
 
-
+"""
 """
 try:
     print("eigene DB")
@@ -29,3 +30,8 @@ print(diff1)
 diff.update(diff1)
 print(diff)
 """
+
+test = bytearray(b'k\x13I\xf6z\xbd\xe0\x8e\x88\xbb\x90Q\xd25a\xc8\x06\xf0\xb5\x81\xae\xd9#\xfa\xb9rh\xe6\xdb\x94\xe6\xa7')
+print(test)
+test2 = bytes(test)
+print(test2)
