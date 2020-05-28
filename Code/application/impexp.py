@@ -40,9 +40,7 @@ lm = LogMerge.LogMerge()
 
 def createInventory():
     """
-    writes the Inventory of all logs that are stored in a pcap file (fname) to the givent inventory file as txt.
-    fname - pcap file
-    inventroryDict - txt where the inventory should be stored in
+    gets the status of the Database as a dictionary and returns this dictionary
     """
     try:
         status_dictionary = lm.get_database_status()
@@ -53,20 +51,19 @@ def createInventory():
 
 def compareInventory(inventoryint, inventoryext):
     """
-    Compares two txt-files who are intended as inventories of pcap files that log the different messages.
-    At the moment it only compares the indexes
-    TODO: Testing. Möglicherweise kleine Anpassungen LogMerge Connect
+    Compares two dictionaries for their master feeds and differeneces in sequence numbers.
     """
     diff = {k: -1 for k in inventoryint if k not in inventoryext}
     diff_seq = {k: inventoryext[k] for k in inventoryint if k in inventoryext and inventoryext[k] < inventoryint[k]}
     diff.update(diff_seq)
+    print(diff)
     return diff
 
 def sendInventory(inventory, socket):
     """
-
+    sends inventory to peer by sending keys and values of the dictionary seperately and putting them together at the end.
     """
-    # TODO: MÖglichereweise Anpassen Logmerge
+
     try:
         inventory_keys = inventory.keys()
         inventory_vals = inventory.values()
@@ -85,7 +82,8 @@ def receivePeerInventory(socket):
     # peerInventoryByteSize =
     # if peerInventoryByteSize != None:
     """
-    Please comment
+    receiving peer Inventory-dictionary in two steps: 
+    first keys, then values
     """
     peer_key = list()
     peer_vals = list()
@@ -93,7 +91,6 @@ def receivePeerInventory(socket):
         keys = True
         while 1:
             receivedInventory = socket.recv(512)
-            print(receivedInventory)
             if receivedInventory == b'finkeys':
                 keys = False
                 continue
@@ -106,13 +103,9 @@ def receivePeerInventory(socket):
                 peer_key.append(bytes(receivedInventory))
             else:
                 peer_vals.append(int.from_bytes(receivedInventory, byteorder= "little"))
-        print(peer_key)
-        print(peer_vals)
         peerInventory = dict(zip(peer_key, peer_vals))
-        print(peerInventory)
         return peerInventory
 
-    
     except BluetoothError:
         print(f"<Bluetooth error: {BluetoothError}>")
     except Exception as e:
@@ -123,16 +116,16 @@ def receivePeerInventory(socket):
 
 def createPayload(inventoryint, inventoryext):
     """
-    creates payload pcap file with the missing pcap files for the peer.
+    creates payload pcap files by exporting the missing logs according to the inventory dictionary
     """
-    # TODO: Anbindung LogMerge Methode export_logs
     diff = compareInventory(inventoryint, inventoryext)
-    lm.export_logs("payload", diff)
+    if diff != dict():
+        lm.export_logs("payload", diff)
 
 
 def handlePayload():
     """
-    takes the Payload of the peer specified for the local log and writes
+    takes the Payload of the peer specified for the local log and writes it to the database.
     """
     lm.import_logs(peerPayloadDir)
     print("<wrote peerPayload to log>")
@@ -141,7 +134,7 @@ def handlePayload():
 
 def sendPayload(socket):
     """
-    Please comment
+    Send the payload payket for packet to the peer.
     """
     # TODO: Implement and test
     try:
@@ -165,10 +158,8 @@ def sendPayload(socket):
 
 def receivePeerPayload(socket):
     """
-    Please comment
+    receives the payload packet for packet from the peer.
     """
-    # Current code already deprecated
-    # TODO: Implement and test
     payloadInfo = socket.recv(512)
 
     if payloadInfo == b"False": 
@@ -180,16 +171,13 @@ def receivePeerPayload(socket):
     try:
         peerPayloadLines = socket.recv(512)
         filename = peerPayloadLines.decode('utf-8')
-        print(peerPayloadLines)
         while 1:
             peerPayloadLines= socket.recv(4096)  # receive using socket
-            print(peerPayloadLines)
             if peerPayloadLines:
                 if peerPayloadLines == b"EOF":
                     PCAP.write_pcap("peerPayload/" + filename, packets_list)
                     packets_list.clear()
                     filename = peerPayloadLines.decode('utf-8')
-                    print(peerPayloadLines)
                     continue
                 if peerPayloadLines == b"fin":
                     return 1
