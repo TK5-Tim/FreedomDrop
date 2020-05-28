@@ -48,9 +48,9 @@ Journals of all meetings that took place:
 - [x] leere PCAP handeln
 - [x] PCAP Format kompatibel (Tschudin Mail)
 - [x] Verarbeitung von mehreren Pcap Files
-- [ ] Schnittstellen Gruppe 4 andocken
+- [x] Schnittstellen Gruppe 4 andocken
 	* Funktionen ersetzen
-- [ ] Testen Demo / Demo aufsezten
+- [x] Testen Demo / Demo aufsezten
 
 ## Ressources 
 All Ressources that might be Helpful for the project are stored in there. 
