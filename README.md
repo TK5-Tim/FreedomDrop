@@ -19,8 +19,8 @@ Tim Keller ([@TK5-Tim](https://github.com/TK5-Tim))
 
 ## Code 
 Includes two different versions of our project:
-* ![BTonly](Code/BTonly) has the code for the independent application for updating pcap files.
-* ![application](Code/application) has the code for the connected application to logMerge and feedControl
+* [BTonly](Code/BTonly) has the code for the independent application for updating pcap files.
+* [application](Code/application) has the code for the connected application to logMerge and feedControl
 
 ## Installation Dependencies
 the following dependencies are needed for the use of our program:
